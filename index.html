@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Gaming</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            display: flex;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .sidebar {
+            width: 2cm;
+            height: 10cm;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            border-radius: 5px;
+        }
+        .sidebar button {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+            transition: background 0.3s ease;
+        }
+        .sidebar button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .content {
+            flex-grow: 1;
+            margin-left: 2.5cm;
+            padding: 20px;
+            text-align: center;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .active {
+            display: block;
+        }
+        .home-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-height: 70vh;
+            overflow-y: auto;
+            color: #333;
+        }
+        .home-content h1 {
+            font-size: 2.5rem;
+            color: purple;
+            margin-bottom: 20px;
+        }
+        .home-content h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .home-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .home-content ul {
+            text-align: left;
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .home-content ul li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #555;
+        }
+        .home-content .highlight {
+            color: purple;
+            font-weight: bold;
+        }
+        .balance-box, .result-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .trading-container {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px;
+            color: #000; /* Updated font color for better visibility */
+        }
+        .game-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .game-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 30%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #333;
+        }
+        .game-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .game-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: purple;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .game-button:hover {
+            background: #6a1b9a;
+        }
+        .game-button.locked {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #loading {
+            display: none;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 1.5cm;
+                height: auto;
+                top: 0;
+                transform: none;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .content {
+                margin-left: 0;
+                padding-top: 80px;
+            }
+            .game-card {
+                width: 45%;
+            }
+        }
+        @media (max-width: 480px) {
+            .game-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <button onclick="showSection('home')">🏠</button>
+        <button onclick="showSection('trading')">📈</button>
+        <button onclick="showSection('gaming')">🎮</button>
+    </div>
+    <div class="content">
+        <div id="home" class="content-section active">
+            <div class="home-content">
+                <h1>Welcome to Quantum Gaming</h1>
+                <h2>Your Gateway to Fun and Learning!</h2>
+                <p>At <span class="highlight">Quantum Gaming</span>, we bring together the thrill of trading and the excitement of gaming in one seamless platform. Whether you're a seasoned trader or a gaming enthusiast, Quantum Gaming offers a unique experience that combines strategy, skill, and entertainment.</p>
+                <p>Our mission is to provide a <span class="highlight">risk-free environment</span> where you can:</p>
+                <ul>
+                    <li>Learn and practice trading strategies with our <span class="highlight">realistic trading simulator</span>.</li>
+                    <li>Earn rewards by trading and use them to unlock exciting in-game features.</li>
+                    <li>Enjoy a variety of fun and interactive games that challenge your skills and creativity.</li>
+                </ul>
+                <p>Join thousands of users who are already exploring the world of Quantum Gaming. Start your journey today and discover a new way to learn, play, and grow!</p>
+                <h2>Why Choose Quantum Gaming?</h2>
+                <p>Here’s what makes us stand out:</p>
+                <ul>
+                    <li><span class="highlight">Innovative Platform</span>: A unique blend of trading and gaming.</li>
+                    <li><span class="highlight">User-Friendly Interface</span>: Easy to navigate and designed for all skill levels.</li>
+                    <li><span class="highlight">Safe and Secure</span>: A risk-free environment to learn and play.</li>
+                    <li><span class="highlight">Community-Driven</span>: Connect with like-minded individuals and share your experiences.</li>
+                </ul>
+                <p>Ready to get started? Click on the <span class="highlight">Trading</span> or <span class="highlight">Gaming</span> sections above to dive into the action!</p>
+            </div>
+        </div>
+        <div id="trading" class="content-section" style="background-color: rgba(255, 255, 255, 0.8);">
+            <h2 style="color: #000;">Trading Simulation</h2> <!-- Updated heading color -->
+            <div class="trading-container">
+                <div class="balance-box">
+                    <h3>Total Balance: $<span id="totalBalance">1000</span></h3>
+                </div>
+                <label for="company" style="color: #000;">Select Company:</label> <!-- Updated label color -->
+                <select id="company">
+                    <option value="amazon">Amazon</option>
+                    <option value="tesla">Tesla</option>
+                    <option value="apple">Apple</option>
+                    <option value="google">Google</option>
+                    <option value="microsoft">Microsoft</option>
+                    <option value="meta">Meta</option>
+                    <option value="netflix">Netflix</option>
+                    <option value="nvidia">NVIDIA</option>
+                    <option value="intel">Intel</option>
+                    <option value="amd">AMD</option>
+                </select>
+                <label for="multiplier" style="color: #000;">Choose Multiplier (3-20):</label> <!-- Updated label color -->
+                <input type="number" id="multiplier" min="3" max="20" value="3">
+                <label for="stocks" style="color: #000;">Number of Stocks (1-10,000):</label> <!-- Updated label color -->
+                <input type="number" id="stocks" min="1" max="10000" value="1">
+                <button onclick="startTrading()">Start Trading</button>
+                <div id="loading">Loading...</div>
+                <div class="result-box">
+                    <h3>Trading Results</h3>
+                    <p>Initial Number: <span id="initialNumber">-</span></p>
+                    <p>Final Number: <span id="finalNumber">-</span></p>
+                    <p>Profit/Loss: <span id="profitLoss">-</span></p>
+                </div>
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+        <div id="gaming" class="content-section">
+            <h2>🎮 Game Collection</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://i.imgur.com/3ZQZQ9m.png" alt="2048 Game">
+                    <h3>2048</h3>
+                    <p>A fun and addictive puzzle game where you combine tiles to reach the 2048 tile!</p>
+                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for $1500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/7QZQZ9m.png" alt="Slither.io">
+                    <h3>Slither.io</h3>
+                    <p>Control a snake and grow as large as possible while avoiding other players!</p>
+                    <button class="game-button locked" data-price="2000" onclick="unlockGame(this)" data-link="https://slither.io/">🔒 Unlock for $2000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/8QZQZ9m.png" alt="Agar.io">
+                    <h3>Agar.io</h3>
+                    <p>Grow your cell by eating smaller cells and avoid being eaten by larger ones!</p>
+                    <button class="game-button locked" data-price="2500" onclick="unlockGame(this)" data-link="https://agar.io/">🔒 Unlock for $2500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/9QZQZ9m.png" alt="Krunker.io">
+                    <h3>Krunker.io</h3>
+                    <p>A fast-paced multiplayer first-person shooter game in your browser!</p>
+                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for $3000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/10QZQ9m.png" alt="Minecraft Classic">
+                    <h3>Minecraft Classic</h3>
+                    <p>Build and explore in this classic version of Minecraft directly in your browser!</p>
+                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for $3500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/11QZQ9m.png" alt="Tetris">
+                    <h3>Tetris</h3>
+                    <p>The classic block-stacking game that challenges your speed and strategy!</p>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for $4000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/12QZQ9m.png" alt="Pac-Man">
+                    <h3>Pac-Man</h3>
+                    <p>Guide Pac-Man through the maze while avoiding ghosts in this iconic game!</p>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for $4500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/13QZQ9m.png" alt="Snake Game">
+                    <h3>Snake Game</h3>
+                    <p>Control the snake, eat food, and grow as long as possible without crashing!</p>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for $5000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/14QZQ9m.png" alt="Chess">
+                    <h3>Chess</h3>
+                    <p>Challenge your mind with the classic game of strategy and tactics!</p>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for $5500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.imgur.com/15QZQ9m.png" alt="Sudoku">
+                    <h3>Sudoku</h3>
+                    <p>Solve the puzzle by filling the grid with numbers from 1 to 9!</p>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for $6000</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer style="text-align: center; padding: 10px; background: rgba(0, 0, 0, 0.8); color: white; position: fixed; bottom: 0; width: 100%;">
+        <p>&copy; 2023 Quantum Gaming. All rights reserved.</p>
+    </footer>
+    <script>
+        let chartInstance = null;
+        let totalBalance = 1000;
+
+        function startTrading() {
+            let multiplier = parseInt(document.getElementById("multiplier").value);
+            let stocks = parseInt(document.getElementById("stocks").value);
+
+            if (stocks < 1 || stocks > 10000) {
+                alert("Please enter a valid number of stocks (1-10,000).");
+                return;
+            }
+            if (multiplier < 3 || multiplier > 20) {
+                alert("Please enter a valid multiplier (3-20).");
+                return;
+            }
+
+            document.getElementById("loading").style.display = "block";
+            setTimeout(() => {
+                let number = Math.floor(Math.random() * 100) + 1;
+                let initialNumber = number;
+                let history = [{ name: "Start", value: number }];
+
+                for (let i = 0; i < multiplier; i++) {
+                    if (number % 2 === 0) {
+                        number /= 2;
+                    } else {
+                        number = number * 3 + 1;
+                    }
+                    history.push({ name: "Step " + (i + 1), value: number });
+                }
+
+                let profitLoss = (number - initialNumber) * stocks;
+                totalBalance += profitLoss;
+
+                document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+                document.getElementById("initialNumber").innerText = initialNumber;
+                document.getElementById("finalNumber").innerText = number;
+                document.getElementById("profitLoss").innerText = profitLoss > 0 ? `+${profitLoss}` : profitLoss;
+                document.getElementById("profitLoss").style.color = profitLoss > 0 ? "#21bf73" : "#ff4500";
+
+                if (chartInstance) {
+                    chartInstance.destroy();
+                }
+                let ctx = document.getElementById("chart").getContext("2d");
+                chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: history.map(h => h.name),
+                        datasets: [{
+                            label: "Stock Value",
+                            data: history.map(h => h.value),
+                            borderColor: "#21bf73",
+                            borderWidth: 2,
+                            backgroundColor: "rgba(33, 191, 115, 0.2)",
+                            pointBackgroundColor: "#21bf73",
+                            tension: 0.4
+                        }]
+                    }
+                });
+
+                if (profitLoss > 0) {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+
+                document.getElementById("loading").style.display = "none";
+            }, 1000); // Simulate a 1-second delay
+        }
+
+        function unlockGame(button) {
+            const price = parseInt(button.getAttribute("data-price"));
+            if (totalBalance >= price) {
+                totalBalance -= price;
+                document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+                button.classList.remove("locked");
+                button.innerText = "▶️ Play Now";
+                button.onclick = () => window.open(button.getAttribute("data-link"), "_blank");
+                alert("Game unlocked successfully!");
+            } else {
+                alert("Insufficient balance to unlock this game.");
+            }
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll(".content-section").forEach(section => {
+                section.classList.remove("active");
+            });
+            document.getElementById(sectionId).classList.add("active");
+        }
+    </script>
+</body>
+</html>
