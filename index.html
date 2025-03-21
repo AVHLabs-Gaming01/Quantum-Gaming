@@ -310,6 +310,11 @@
                     <h3>Chess</h3>
                     <p>Challenge your mind with the classic game of strategy and tactics!</p>
                     <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for $5500</button>
+                </div> <div class="game-card">
+                    <img src="https://i.postimg.cc/7YrWbfyY/diep-gm.webp" alt="Diep.io">
+                    <h3>2048</h3>
+                    <p>Multiplayer tank battle in a 2D arena. Earn XP, upgrade stats, evolve classes ,Compete globally!</p>
+                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for $5500</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
@@ -331,8 +336,8 @@
             let multiplier = parseInt(document.getElementById("multiplier").value);
             let stocks = parseInt(document.getElementById("stocks").value);
 
-            if (stocks < 1 || stocks > 1000) {
-                alert("Please enter a valid number of stocks (1-1000).");
+            if (stocks < 1 || stocks > 10000) {
+                alert("Please enter a valid number of stocks (1-10,000).");
                 return;
             }
             if (multiplier < 3 || multiplier > 20) {
@@ -409,7 +414,17 @@
                 alert("Insufficient balance to unlock this game.");
             }
         }
+// Save balance to localStorage
+localStorage.setItem("totalBalance", totalBalance);
 
+// Retrieve balance from localStorage on page load
+window.onload = function() {
+    const savedBalance = localStorage.getItem("totalBalance");
+    if (savedBalance) {
+        totalBalance = parseFloat(savedBalance);
+        document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+    }
+};
         function showSection(sectionId) {
             document.querySelectorAll(".content-section").forEach(section => {
                 section.classList.remove("active");
