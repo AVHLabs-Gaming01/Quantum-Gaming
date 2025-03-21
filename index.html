@@ -24,7 +24,7 @@
             100% { background-position: 0% 50%; }
         }
         .sidebar {
-            width: 2cm;
+            width: 3cm;
             height: 10cm;
             background: rgba(0, 0, 0, 0.7);
             padding: 10px 0;
@@ -192,9 +192,9 @@
 </head>
 <body>
     <div class="sidebar">
-        <button onclick="showSection('home')">🏠</button>
-        <button onclick="showSection('trading')">📈</button>
-        <button onclick="showSection('gaming')">🎮</button>
+        <button onclick="showSection('home')">🏠home</button>
+        <button onclick="showSection('trading')">📈Trade</button>
+        <button onclick="showSection('gaming')">🎮game</button>
     </div>
     <div class="content">
         <div id="home" class="content-section active">
@@ -239,9 +239,9 @@
                     <option value="intel">Intel</option>
                     <option value="amd">AMD</option>
                 </select>
-                <label for="multiplier" style="color: #000;">Choose Multiplier (3-20):</label> <!-- Updated label color -->
+                <label for="multiplier" style="color: #000;">Choose which turn to stop trade (3-20):</label> <!-- Updated label color -->
                 <input type="number" id="multiplier" min="3" max="20" value="3">
-                <label for="stocks" style="color: #000;">Number of Stocks (1-10,000):</label> <!-- Updated label color -->
+                <label for="stocks" style="color: #000;">Number of Stocks (1-1000):</label> <!-- Updated label color -->
                 <input type="number" id="stocks" min="1" max="10000" value="1">
                 <button onclick="startTrading()">Start Trading</button>
                 <div id="loading">Loading...</div>
@@ -314,7 +314,12 @@
                     <img src="https://i.postimg.cc/7YrWbfyY/diep-gm.webp" alt="Diep.io">
                     <h3>Diep.io</h3>
                     <p>Multiplayer tank battle in a 2D arena. Earn XP, upgrade stats, evolve classes ,Compete globally!</p>
-                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for $5500</button>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for $5500</button>
+                </div><div class="game-card">
+                    <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
+                    <h3>Kour.io</h3>
+                    <p>A fast-paced multiplayer FPS with smooth controls, epic gunfights, and nonstop action!</p>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for $6000</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
@@ -336,8 +341,8 @@
             let multiplier = parseInt(document.getElementById("multiplier").value);
             let stocks = parseInt(document.getElementById("stocks").value);
 
-            if (stocks < 1 || stocks > 10000) {
-                alert("Please enter a valid number of stocks (1-10,000).");
+            if (stocks < 1 || stocks > 1000) {
+                alert("Please enter a valid number of stocks (1-1000).");
                 return;
             }
             if (multiplier < 3 || multiplier > 20) {
@@ -411,7 +416,7 @@
                 button.onclick = () => window.open(button.getAttribute("data-link"), "_blank");
                 alert("Game unlocked successfully!");
             } else {
-                alert("Insufficient balance to unlock this game.");
+                alert("Insufficient balance for more money play trading game in adjecent section");
             }
         }
 // Save balance to localStorage
