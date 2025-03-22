@@ -26,7 +26,7 @@
         .sidebar {
             width: 3cm;
             height: 10cm;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.3);
             padding: 10px 0;
             display: flex;
             flex-direction: column;
@@ -70,7 +70,7 @@
             background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-height: 70vh;
+            max-height: 86vh;
             overflow-y: auto;
             color: #333;
         }
@@ -192,9 +192,63 @@
 </head>
 <body>
     <div class="sidebar">
-        <button onclick="showSection('home')">🏠home</button>
-        <button onclick="showSection('trading')">📈Trade</button>
-        <button onclick="showSection('gaming')">🎮game</button>
+       <button onclick="showSection('home')" style="
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+">
+    <img 
+        src="https://i.postimg.cc/15vDkGs7/image-Photoroom-Photoroom.png" 
+        alt="Home" 
+        style="
+            width: 100px; /* Adjust size as needed */
+            height: 40px; /* Adjust size as needed */
+            transition: transform 0.3s ease;
+        "
+        onmouseover="this.style.transform = 'scale(1.1)';"
+        onmouseout="this.style.transform = 'scale(1)';"
+    >
+</button>
+        <button onclick="showSection('trading')" style="
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+">
+    <img 
+        src="https://i.postimg.cc/pybNZv8F/trdicn-removebg-preview.png" 
+        alt="Trade" 
+        style="
+            width: 100px; /* Adjust size as needed */
+            height: 35px; /* Adjust size as needed */
+            transition: transform 0.3s ease;
+        "
+        onmouseover="this.style.transform = 'scale(1.1)';"
+        onmouseout="this.style.transform = 'scale(1)';"
+    >
+</button>
+       <button onclick="showSection('gaming')" style="
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+">
+    <img 
+        src="https://i.postimg.cc/pLGS05mK/image-Photoroom-4.png" 
+        alt="Game" 
+        style="
+            width: 100px; /* Adjust size as needed */
+            height: 30px; /* Adjust size as needed */
+            transition: transform 0.3s ease;
+        "
+        onmouseover="this.style.transform = 'scale(1.1)';"
+        onmouseout="this.style.transform = 'scale(1)';"
+    >
+</button>
     </div>
     <div class="content">
         <div id="home" class="content-section active">
@@ -220,38 +274,151 @@
                 <p>Ready to get started? Click on the <span class="highlight">Trading</span> or <span class="highlight">Gaming</span> sections above to dive into the action!</p>
             </div>
         </div>
-        <div id="trading" class="content-section" style="background-color: rgba(255, 255, 255, 0.8);">
-            <h2 style="color: #000;">Trading Simulation</h2> <!-- Updated heading color -->
-            <div class="trading-container">
-                <div class="balance-box">
-                    <h3>Total Balance: $<span id="totalBalance">1000</span></h3>
-                </div>
-                <label for="company" style="color: #000;">Select Company:</label> <!-- Updated label color -->
-                <select id="company">
-                    <option value="amazon">Amazon</option>
-                    <option value="tesla">Tesla</option>
-                    <option value="apple">Apple</option>
-                    <option value="google">Google</option>
-                    <option value="microsoft">Microsoft</option>
-                    <option value="meta">Meta</option>
-                    <option value="netflix">Netflix</option>
-                    <option value="nvidia">NVIDIA</option>
-                    <option value="intel">Intel</option>
-                    <option value="amd">AMD</option>
-                </select>
-                <label for="multiplier" style="color: #000;">Choose which turn to stop trade (3-20):</label> <!-- Updated label color -->
-                <input type="number" id="multiplier" min="3" max="20" value="3">
-                <label for="stocks" style="color: #000;">Number of Stocks (1-1000):</label> <!-- Updated label color -->
-                <input type="number" id="stocks" min="1" max="1000" value="1">
-                <button onclick="startTrading()">Start Trading</button>
+        <div id="trading" class="content-section" style="
+    background: linear-gradient(135deg, #6a11cb, #e73c7e);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    color: white;
+">
+    <h2 style="
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    ">Trading Simulation</h2>
+    <div class="trading-container">
+        <div class="balance-box" style="
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        ">
+            <h3 style="
+                font-size: 22px;
+                margin: 0;
+                color: #ffdd57;
+            ">Total Balance: $<span id="totalBalance">1000</span></h3>
+        </div>
+        <div class="input-group" style="
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        ">
+            <label for="company" style="
+                font-size: 18px;
+                font-weight: bold;
+                color: rgba(255, 255, 255, 0.9);
+            ">Select Company:</label>
+            <select id="company" style="
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                color: #FFD700;
+                font-size: 16px;
+                cursor: pointer;
+            ">
+                <option value="amazon">Amazon</option>
+                <option value="tesla">Tesla</option>
+                <option value="apple">Apple</option>
+                <option value="google">Google</option>
+                <option value="microsoft">Microsoft</option>
+                <option value="meta">Meta</option>
+                <option value="netflix">Netflix</option>
+                <option value="nvidia">NVIDIA</option>
+                <option value="intel">Intel</option>
+                <option value="amd">AMD</option>
+            </select>
+            <label for="multiplier" style="
+                font-size: 18px;
+                font-weight: bold;
+                color: rgba(255, 255, 255, 0.9);
+            ">Choose which turn to stop trade (3-20):</label>
+            <input type="number" id="multiplier" min="3" max="20" value="3" style="
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                color: #FFD700;
+                font-size: 16px;
+            ">
+            <label for="stocks" style="
+                font-size: 18px;
+                font-weight: bold;
+                color: rgba(255, 255, 255, 0.9);
+           <label for="stocks" style="
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+">Number of Stocks (1-1000):</label>
+<input type="number" id="stocks" min="1" max="1000" value="1" style="
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFD700;
+    font-size: 16px;
+    transition: all 0.3s ease;
+">
+<button 
+   <button 
+    onclick="startTrading()" 
+    style="
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+    "
+    onmouseover="this.style.transform = 'scale(1.05)'; this.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';"
+    onmouseout="this.style.transform = 'scale(1)'; this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.2)';"
+>
+    Start Trading
+</button>
                 <div id="loading">Loading...</div>
-                <div class="result-box">
-                    <h3>Trading Results</h3>
-                    <p>Initial Number: <span id="initialNumber">-</span></p>
-                    <p>Final Number: <span id="finalNumber">-</span></p>
-                    <p>Profit/Loss: <span id="profitLoss">-</span></p>
-                </div>
-                <canvas id="chart"></canvas>
+               <div class="result-box" style="
+    background: linear-gradient(135deg, #6a11cb, #e73c7e);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-top: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+">
+    <h3 style="
+        font-size: 24px;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    ">Trading Results</h3>
+    <p style="
+        font-size: 18px;
+        margin: 10px 0;
+        color: rgba(255, 255, 255, 0.9);
+    ">Initial Number: <span id="initialNumber" style="font-weight: bold; color: #ffdd57;">-</span></p>
+    <p style="
+        font-size: 18px;
+        margin: 10px 0;
+        color: rgba(255, 255, 255, 0.9);
+    ">Final Number: <span id="finalNumber" style="font-weight: bold; color: #ffdd57;">-</span></p>
+    <p style="
+        font-size: 18px;
+        margin: 10px 0;
+        color: rgba(255, 255, 255, 0.9);
+    ">Profit/Loss: <span id="profitLoss" style="font-weight: bold;">-</span></p>
+</div>
+   </div>      <canvas id="chart"></canvas>
             </div>
         </div>
         <div id="gaming" class="content-section">
@@ -330,7 +497,7 @@
             </div>
         </div>
     </div>
-    <footer style="text-align: center; padding: 10px; background: rgba(0, 0, 0, 0.8); color: white; position: fixed; bottom: 0; width: 100%;">
+    <footer style="text-align: center; padding: 5px; background: rgba(0, 0, 0, 0.8); color: white; position: fixed; bottom: 0; width: 100%;">
         <p>&copy; 2025 Quantum Gaming. All rights reserved.</p>
     </footer>
     <script>
