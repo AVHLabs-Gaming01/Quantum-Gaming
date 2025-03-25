@@ -26,16 +26,15 @@
         }
         .sidebar {
             width: 3cm;
-            height: 10cm;
+            height: 100vh;
             background: rgba(0, 0, 0, 0.3);
             padding: 10px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: fixed;
-            top: 50%;
             left: 0;
-            transform: translateY(-50%);
+            overflow-y: auto;
             border-radius: 5px;
         }
         .sidebar button {
@@ -45,8 +44,9 @@
             padding: 10px;
             cursor: pointer;
             font-size: 24px;
-            color: white;
+            color: black; /* Changed to black text */
             transition: background 0.3s ease;
+            text-align: center;
         }
         .sidebar button:hover {
             background: rgba(255, 255, 255, 0.1);
@@ -116,7 +116,7 @@
             max-height: 70vh;
             overflow-y: auto;
             padding: 10px;
-            color: #000; /* Updated font color for better visibility */
+            color: #000;
         }
         .game-container {
             display: flex;
@@ -204,8 +204,8 @@
         src="https://i.postimg.cc/Kj0N7Nh6/image-Photoroom-5.png" 
         alt="Home" 
         style="
-            width: 110px; /* Adjust size as needed */
-            height: 40px; /* Adjust size as needed */
+            width: 110px;
+            height: 40px;
             transition: transform 0.3s ease;
         "
         onmouseover="this.style.transform = 'scale(1.1)';"
@@ -223,8 +223,8 @@
         src="https://i.postimg.cc/pybNZv8F/trdicn-removebg-preview.png" 
         alt="Trade" 
         style="
-            width: 100px; /* Adjust size as needed */
-            height: 35px; /* Adjust size as needed */
+            width: 100px;
+            height: 35px;
             transition: transform 0.3s ease;
         "
         onmouseover="this.style.transform = 'scale(1.1)';"
@@ -242,14 +242,23 @@
         src="https://i.postimg.cc/pLGS05mK/image-Photoroom-4.png" 
         alt="Game" 
         style="
-            width: 100px; /* Adjust size as needed */
-            height: 30px; /* Adjust size as needed */
+            width: 100px;
+            height: 30px;
             transition: transform 0.3s ease;
         "
         onmouseover="this.style.transform = 'scale(1.1)';"
         onmouseout="this.style.transform = 'scale(1)';"
     >
 </button>
+
+<!-- New Genre Sections -->
+<button onclick="showSection('action')">Action</button>
+<button onclick="showSection('adventure')">Adventure</button>
+<button onclick="showSection('puzzle')">Puzzle</button>
+<button onclick="showSection('strategy')">Strategy</button>
+<button onclick="showSection('sports')">Sports </button>
+<button onclick="showSection('racing')">Racing </button>
+<button onclick="showSection('classic')">Classic </button>
     </div>
     <div class="content">
         <div id="home" class="content-section">
@@ -265,7 +274,7 @@
                 </ul>
                 <p>Join thousands of users who are already exploring the world of Quantum Gaming. Start your journey today and discover a new way to learn, play, and grow!</p>
                 <h2>Why Choose Quantum Gaming?</h2>
-                <p>Here’s what makes us stand out:</p>
+                <p>Here's what makes us stand out:</p>
                 <ul>
                     <li><span class="highlight">Innovative Platform</span>: A unique blend of trading and gaming.</li>
                     <li><span class="highlight">User-Friendly Interface</span>: Easy to navigate and designed for all skill levels.</li>
@@ -351,42 +360,37 @@
                 font-size: 18px;
                 font-weight: bold;
                 color: rgba(255, 255, 255, 0.9);
-           <label for="stocks" style="
-    font-size: 18px;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.9);
-">Number of Stocks (1-1000):</label>
-<input type="number" id="stocks" min="1" max="1000" value="1" style="
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
-    color: #FFD700;
-    font-size: 16px;
-    transition: all 0.3s ease;
-">
-<button 
-   <button 
-    onclick="startTrading()" 
-    style="
-        padding: 15px 30px;
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-    "
-    onmouseover="this.style.transform = 'scale(1.05)'; this.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';"
-    onmouseout="this.style.transform = 'scale(1)'; this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.2)';"
->
-    Start Trading
-</button>
+            ">Number of Stocks (1-1000):</label>
+            <input type="number" id="stocks" min="1" max="1000" value="1" style="
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                background: rgba(255, 255, 255, 0.1);
+                color: #FFD700;
+                font-size: 16px;
+                transition: all 0.3s ease;
+            ">
+            <button 
+                onclick="startTrading()" 
+                style="
+                    padding: 15px 30px;
+                    background: linear-gradient(135deg, #6a11cb, #2575fc);
+                    color: white;
+                    border: none;
+                    border-radius: 10px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                    position: relative;
+                    overflow: hidden;
+                "
+                onmouseover="this.style.transform = 'scale(1.05)'; this.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';"
+                onmouseout="this.style.transform = 'scale(1)'; this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.2)';"
+            >
+                Start Trading
+            </button>
                 <div id="loading">Loading...</div>
                <div class="result-box" style="
     background: linear-gradient(135deg, #6a11cb, #e73c7e);
@@ -425,7 +429,7 @@
         <div id="gaming" class="content-section active">
             <h2>🎮 Game Collection</h2>
             <div class="game-container">
-                <div class="game-card">
+                 <div class="game-card">
                     <img src="https://i.postimg.cc/q7pM5SWL/2024-gm.png" alt="2048 Game">
                     <h3>2048</h3>
                     <p>A fun and addictive puzzle game where you combine tiles to reach the 2048 tile!</p>
@@ -454,6 +458,26 @@
                     <h3>Minecraft Classic</h3>
                     <p>Build and explore in this classic version of Minecraft directly in your browser!</p>
                     <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for $3500</button>
+                </div><div class="game-card">
+                    <img src="https://i.postimg.cc/RV1dJwBt/brtl-io.webp" alt="https://brutal.io/">
+                    <h3>Brutal.io</h3>
+                    <p>A savage survival game where you devour meat, crush rivals, and dominate the arena!</p>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://brutal.io/#google_vignette">🔒 Unlock for $6000</button>
+                </div>  <div class="game-card">
+                    <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
+                    <h3>Starve.io</h3>
+                    <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for $6500</button>
+                </div><div class="game-card">
+                    <img src="https://i.postimg.cc/br0sNM56/slrds.webp" alt="https://slowroads.io/">
+                    <h3>Slow roads</h3>
+                    <p>Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!</p>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for $6500</button>
+                </div><div class="game-card">
+                    <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
+                    <h3>Kour.io</h3>
+                    <p>A fast-paced multiplayer FPS with smooth controls, epic gunfights, and nonstop action!</p>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for $6000</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/Y9Fwbxb7/ttrsgm.png" alt="Tetris">
@@ -493,11 +517,6 @@
                     <h3>Diep.io</h3>
                     <p>Multiplayer tank battle in a 2D arena. Earn XP, upgrade stats, evolve classes ,Compete globally!</p>
                     <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for $5500</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
-                    <h3>Kour.io</h3>
-                    <p>A fast-paced multiplayer FPS with smooth controls, epic gunfights, and nonstop action!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for $6000</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
@@ -509,16 +528,151 @@
                     <h3>Gats.io</h3>
                     <p>A fast-paced pixel shooter with tactical gameplay, team battles, and customizable weapons!</p>
                     <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://gats.io/">🔒 Unlock for $6000</button>
-                </div>  <div class="game-card">
-                    <img src="https://i.postimg.cc/RV1dJwBt/brtl-io.webp" alt="https://brutal.io/">
-                    <h3>Brutal.io</h3>
-                    <p>A savage survival game where you devour meat, crush rivals, and dominate the arena!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://brutal.io/#google_vignette">🔒 Unlock for $6000</button>
-                </div>  <div class="game-card">
-                    <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
+                </div>  
+            </div>
+        </div>
+
+        <!-- New Genre Sections Content -->
+        <div id="action" class="content-section">
+            <h2>🔫 Action Games</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/xjFdssfr/krnkrgm.png" alt="Krunker.io">
+                    <h3>Krunker.io</h3>
+                    <p>Fast-paced multiplayer FPS with smooth movement and gunplay!</p>
+                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for $3000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/HW6SxYW4/shlsckrs.webp" alt="Shell Shockers">
+                    <h3>Shell Shockers</h3>
+                    <p>Egg-based first-person shooter with various weapons and modes!</p>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://shellshock.io/">🔒 Unlock for $4500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
+                    <h3>Kour.io</h3>
+                    <p>Fast-paced multiplayer FPS with smooth controls and action!</p>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for $6000</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="adventure" class="content-section">
+            <h2>🏕️ Adventure Games</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/dtF1CM3B/mncraft.png" alt="Minecraft Classic">
+                    <h3>Minecraft Classic</h3>
+                    <p>Build and explore in this classic version of Minecraft!</p>
+                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for $3500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="Starve.io">
                     <h3>Starve.io</h3>
-                    <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
+                    <p>Survival game where you gather resources and fight to stay alive!</p>
                     <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for $6500</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="puzzle" class="content-section">
+            <h2>🧩 Puzzle Games</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/q7pM5SWL/2024-gm.png" alt="2048">
+                    <h3>2048</h3>
+                    <p>Combine tiles to reach the 2048 tile in this addictive puzzle game!</p>
+                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for $1500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
+                    <h3>Sudoku</h3>
+                    <p>Classic number puzzle that challenges your logic skills!</p>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for $6000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/Y9Fwbxb7/ttrsgm.png" alt="Tetris">
+                    <h3>Tetris</h3>
+                    <p>Iconic block-stacking game that tests your speed and strategy!</p>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for $4000</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="strategy" class="content-section">
+            <h2>♟️ Strategy Games</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/255NvDPP/chss.png" alt="Chess">
+                    <h3>Chess</h3>
+                    <p>Classic strategy game that challenges your tactical thinking!</p>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for $5500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/7YrWbfyY/diep-gm.webp" alt="Diep.io">
+                    <h3>Diep.io</h3>
+                    <p>Multiplayer tank battle with upgradeable stats and classes!</p>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for $5500</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sports" class="content-section">
+            <h2>⚽ Sports Games</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=Soccer+Game" alt="Soccer Game">
+                    <h3>Soccer Challenge</h3>
+                    <p>Test your soccer skills in this exciting sports game!</p>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for $5000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=Basketball+Game" alt="Basketball Game">
+                    <h3>Basketball Pro</h3>
+                    <p>Shoot hoops and score big in this basketball simulator!</p>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for $5000</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="racing" class="content-section">
+            <h2>🏎️ Racing Games</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/br0sNM56/slrds.webp" alt="https://slowroads.io/">
+                    <h3>Slow roads</h3>
+                    <p>Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!</p>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for $6500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=Moto+Racing" alt="Moto Racing">
+                    <h3>Moto Xtreme</h3>
+                    <p>Dirt bike racing with challenging obstacles and tracks!</p>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for $6000</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="classic" class="content-section">
+            <h2>🕹️ Classic Games</h2>
+            <div class="game-container">
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/QMxzFJRm/pcmngm.png" alt="Pac-Man">
+                    <h3>Pac-Man</h3>
+                    <p>Guide Pac-Man through the maze while avoiding ghosts!</p>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for $4500</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://i.postimg.cc/BbXs2Gkh/snkgm.png" alt="Snake Game">
+                    <h3>Snake Game</h3>
+                    <p>Classic snake game where you grow as long as possible!</p>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for $5000</button>
+                </div>
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=Space+Invaders" alt="Space Invaders">
+                    <h3>Space Invaders</h3>
+                    <p>Defend Earth from alien invaders in this arcade classic!</p>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for $4000</button>
                 </div>
             </div>
         </div>
@@ -526,116 +680,168 @@
     <footer style="text-align: center; padding: 5px; background: rgba(0, 0, 0, 0.8); color: white; position: fixed; bottom: 0; width: 100%;">
         <p>&copy; 2025 Quantum Gaming. Unlock games by playing the Trading Game! </p>
     </footer>
-    <script>
-        let chartInstance = null;
-        let totalBalance = 1000;
+   <script>
+    let chartInstance = null;
+    let totalBalance = 1000;
+    let unlockedGames = JSON.parse(localStorage.getItem("unlockedGames")) || {};
 
-        function startTrading() {
-            let multiplier = parseInt(document.getElementById("multiplier").value);
-            let stocks = parseInt(document.getElementById("stocks").value);
+    function startTrading() {
+        let multiplier = parseInt(document.getElementById("multiplier").value);
+        let stocks = parseInt(document.getElementById("stocks").value);
 
-            if (stocks < 1 || stocks > 1000) {
-                alert("Please enter a valid number of stocks (1-1000).");
-                return;
-            }
-            if (multiplier < 3 || multiplier > 20) {
-                alert("Please enter a valid multiplier (3-20).");
-                return;
-            }
-
-            document.getElementById("loading").style.display = "block";
-            setTimeout(() => {
-                let number = Math.floor(Math.random() * 100) + 1;
-                let initialNumber = number;
-                let history = [{ name: "Start", value: number }];
-
-                for (let i = 0; i < multiplier; i++) {
-                    if (number % 2 === 0) {
-                        number /= 2;
-                    } else {
-                        number = number * 3 + 1;
-                    }
-                    history.push({ name: "Step " + (i + 1), value: number });
-                }
-
-                let profitLoss = (number - initialNumber) * stocks;
-                totalBalance += profitLoss;
-
-                document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
-                document.getElementById("initialNumber").innerText = initialNumber;
-                document.getElementById("finalNumber").innerText = number;
-                document.getElementById("profitLoss").innerText = profitLoss > 0 ? `+${profitLoss}` : profitLoss;
-                document.getElementById("profitLoss").style.color = profitLoss > 0 ? "#21bf73" : "#ff4500";
-
-                if (chartInstance) {
-                    chartInstance.destroy();
-                }
-                let ctx = document.getElementById("chart").getContext("2d");
-                chartInstance = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: history.map(h => h.name),
-                        datasets: [{
-                            label: "Stock Value",
-                            data: history.map(h => h.value),
-                            borderColor: "#21bf73",
-                            borderWidth: 2,
-                            backgroundColor: "rgba(33, 191, 115, 0.2)",
-                            pointBackgroundColor: "#21bf73",
-                            tension: 0.4
-                        }]
-                    }
-                });
-
-                if (profitLoss > 0) {
-                    confetti({
-                        particleCount: 100,
-                        spread: 70,
-                        origin: { y: 0.6 }
-                    });
-                }
-
-                document.getElementById("loading").style.display = "none";
-            }, 1000); // Simulate a 1-second delay
+        if (stocks < 1 || stocks > 1000) {
+            alert("Please enter a valid number of stocks (1-1000).");
+            return;
+        }
+        if (multiplier < 3 || multiplier > 20) {
+            alert("Please enter a valid multiplier (3-20).");
+            return;
         }
 
-        function unlockGame(button) {
-            const price = parseInt(button.getAttribute("data-price"));
-            if (totalBalance >= price) {
-                totalBalance -= price;
-                document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
-                button.classList.remove("locked");
-                button.innerText = "▶️ Play Now";
-                button.onclick = () => window.open(button.getAttribute("data-link"), "_blank");
-                alert("Game unlocked successfully!");
-            } else {
-                alert("Insufficient balance for more money play trading game in adjecent section");
-            }
-        }
-// Save balance to localStorage
-localStorage.setItem("totalBalance", totalBalance);
+        document.getElementById("loading").style.display = "block";
+        setTimeout(() => {
+            let number = Math.floor(Math.random() * 100) + 1;
+            let initialNumber = number;
+            let history = [{ name: "Start", value: number }];
 
-// Retrieve balance from localStorage on page load
-window.onload = function() {
-    const savedBalance = localStorage.getItem("totalBalance");
-    if (savedBalance) {
-        totalBalance = parseFloat(savedBalance);
-        document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
-    }
-};
-        function showSection(sectionId) {
-            document.querySelectorAll(".content-section").forEach(section => {
-                section.classList.remove("active");
+            for (let i = 0; i < multiplier; i++) {
+                if (number % 2 === 0) {
+                    number /= 2;
+                } else {
+                    number = number * 3 + 1;
+                }
+                history.push({ name: "Step " + (i + 1), value: number });
+            }
+
+            let profitLoss = (number - initialNumber) * stocks;
+            totalBalance += profitLoss;
+            localStorage.setItem("totalBalance", totalBalance.toString());
+
+            document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+            document.getElementById("initialNumber").innerText = initialNumber;
+            document.getElementById("finalNumber").innerText = number;
+            document.getElementById("profitLoss").innerText = profitLoss > 0 ? `+${profitLoss}` : profitLoss;
+            document.getElementById("profitLoss").style.color = profitLoss > 0 ? "#21bf73" : "#ff4500";
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+            let ctx = document.getElementById("chart").getContext("2d");
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: history.map(h => h.name),
+                    datasets: [{
+                        label: "Stock Value",
+                        data: history.map(h => h.value),
+                        borderColor: "#21bf73",
+                        borderWidth: 2,
+                        backgroundColor: "rgba(33, 191, 115, 0.2)",
+                        pointBackgroundColor: "#21bf73",
+                        tension: 0.4
+                    }]
+                }
             });
-            document.getElementById(sectionId).classList.add("active");
-        } </script><ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="fluid"
-     data-ad-layout-key="-6t+ed+2i-1n-4w"
-     data-ad-client="ca-pub-7317481199010812"
-     data-ad-slot="8891040975"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+
+            if (profitLoss > 0) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            document.getElementById("loading").style.display = "none";
+        }, 1000);
+    }
+
+    function unlockGame(button) {
+        const price = parseInt(button.getAttribute("data-price"));
+        const link = button.getAttribute("data-link");
+        const gameName = button.parentElement.querySelector("h3").textContent.trim();
+        
+        if (totalBalance >= price) {
+            totalBalance -= price;
+            localStorage.setItem("totalBalance", totalBalance.toString());
+            document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+            
+            // Store both unlocked status and link
+            unlockedGames[gameName] = {
+                unlocked: true,
+                link: link
+            };
+            localStorage.setItem("unlockedGames", JSON.stringify(unlockedGames));
+            
+            // Update all instances of this game across all sections
+            updateAllGameButtons(gameName, link);
+            
+            alert("Game unlocked successfully!");
+        } else {
+            alert("Insufficient balance. Play the trading game to earn more money!");
+        }
+    }
+
+    function updateAllGameButtons(gameName, link) {
+        // Find all buttons for this game across all sections
+        const allGameCards = document.querySelectorAll(".game-card");
+        
+        allGameCards.forEach(card => {
+            if (card.querySelector("h3").textContent.trim() === gameName) {
+                const button = card.querySelector(".game-button");
+                button.classList.remove("locked");
+                button.innerHTML = "▶️ Play Now";
+                button.onclick = function() {
+                    // Use the link from the button's data attribute or from the stored data
+                    const gameLink = this.getAttribute("data-link") || link;
+                    if (gameLink) {
+                        window.open(gameLink, "_blank");
+                    }
+                };
+            }
+        });
+    }
+
+    // On page load, restore unlocked games and balance
+    window.onload = function() {
+        const savedBalance = localStorage.getItem("totalBalance");
+        if (savedBalance) {
+            totalBalance = parseFloat(savedBalance);
+            document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+        }
+        
+        // Restore unlocked game states with their links
+        for (const [gameName, gameData] of Object.entries(unlockedGames)) {
+            if (gameData.unlocked) {
+                updateAllGameButtons(gameName, gameData.link);
+            }
+        }
+        
+        // Initialize all game buttons with their proper click handlers
+        document.querySelectorAll(".game-button").forEach(button => {
+            const gameName = button.parentElement.querySelector("h3").textContent.trim();
+            if (unlockedGames[gameName]?.unlocked) {
+                button.classList.remove("locked");
+                button.innerHTML = "▶️ Play Now";
+                button.onclick = function() {
+                    const link = unlockedGames[gameName].link || button.getAttribute("data-link");
+                    if (link) {
+                        window.open(link, "_blank");
+                    }
+                };
+            } else {
+                button.onclick = function() {
+                    unlockGame(this);
+                };
+            }
+        });
+    };
+
+    function showSection(sectionId) {
+        document.querySelectorAll(".content-section").forEach(section => {
+            section.classList.remove("active");
+        });
+        document.getElementById(sectionId).classList.add("active");
+    }
+</script>
 </body>
 </html>
