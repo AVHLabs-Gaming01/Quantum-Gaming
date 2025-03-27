@@ -25,7 +25,7 @@
             100% { background-position: 0% 50%; }
         }
         .sidebar {
-            width: 3.25cm;
+            width: 7.69%; /* 1:13 ratio (100/13) */
             height: 100vh;
             background: rgba(0, 0, 0, 0.3);
             padding: 10px 0;
@@ -36,6 +36,7 @@
             left: 0;
             overflow-y: auto;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         .sidebar button {
             width: 100%;
@@ -47,15 +48,17 @@
             color: black; /* Changed to black text */
             transition: background 0.3s ease;
             text-align: center;
+            box-sizing: border-box;
         }
         .sidebar button:hover {
             background: rgba(255, 255, 255, 0.1);
         }
         .content {
             flex-grow: 1;
-            margin-left: 2.5cm;
+            margin-left: 7.69%; /* Same as sidebar width */
             padding: 20px;
             text-align: center;
+            box-sizing: border-box;
         }
         .content-section {
             display: none;
@@ -169,16 +172,24 @@
         }
         @media (max-width: 768px) {
             .sidebar {
-                width: 1.5cm;
+                width: 100%;
                 height: auto;
+                min-height: 60px;
+                position: fixed;
                 top: 0;
-                transform: none;
                 flex-direction: row;
                 justify-content: space-around;
+                z-index: 1000;
+                padding: 5px 0;
+            }
+            .sidebar button {
+                padding: 5px;
+                font-size: 18px;
             }
             .content {
                 margin-left: 0;
-                padding-top: 80px;
+                margin-top: 60px;
+                width: 100%;
             }
             .game-card {
                 width: 45%;
@@ -187,6 +198,10 @@
         @media (max-width: 480px) {
             .game-card {
                 width: 100%;
+            }
+            .sidebar button {
+                font-size: 16px;
+                padding: 3px;
             }
         }
     </style>
@@ -254,8 +269,8 @@
 <!-- New Genre Sections -->
 <button onclick="showSection('action')">Action</button>
 <button onclick="showSection('adventure')">Adventure</button>
-<button onclick="showSection('puzzle')">Puzzle</button>                       <button onclick="showSection('survival')">Survival</button> 
-<button onclick="showSection('strategy')">Strategy</button>
+<button onclick="showSection('puzzle')">Puzzle</button>
+<button onclick="showSection('survival')">Survival</button>                                 <button onclick="showSection('strategy')">Strategy</button>
 <button onclick="showSection('sports')">Sports </button>
 <button onclick="showSection('racing')">Racing </button>
 <button onclick="showSection('classic')">Classic </button>
@@ -446,12 +461,12 @@
                     <h3>Agar.io</h3>
                     <p>Grow your cell by eating smaller cells and avoid being eaten by larger ones!</p>
                     <button class="game-button locked" data-price="2500" onclick="unlockGame(this)" data-link="https://agar.io/">🔒 Unlock for $2500</button>
-                </div><div class="game-card">
+                </div>                 <div class="game-card">
                     <img src="https://i.postimg.cc/FFdkQ16T/dp-io.webp" alt="https://deeeep.io/">
                     <h3>Deeeep.io</h3>
                     <p>Dive into Deeeep.io—evolve as a sea creature, hunt, and survive in a deadly underwater battle royale!</p>
                     <button class="game-button locked" data-price="7000" onclick="unlockGame(this)" data-link="https://deeeep.io/">🔒 Unlock for $7000</button>
-                 </div>
+                </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/xjFdssfr/krnkrgm.png" alt="Krunker.io">
                     <h3>Krunker.io</h3>
@@ -478,7 +493,13 @@
                     <h3>Slow roads</h3>
                     <p>Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!</p>
                     <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for $6500</button>
-                </div><div class="game-card">
+                </div>                 <div class="game-card">
+                    <img src="https://i.postimg.cc/MGWryyCY/tmg-io.webp" alt="Kour.io">
+                    <h3>Taming.io</h3>
+                    <p>Taming.io is a multiplayer survival game where players tame pets, gather resources, and battle others!</p>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for $5000</button>
+                </div>
+              <div class="game-card">
                     <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
                     <h3>Kour.io</h3>
                     <p>A fast-paced multiplayer FPS with smooth controls, epic gunfights, and nonstop action!</p>
@@ -622,8 +643,15 @@
                     <h3>Minecraft Classic</h3>
                     <p>Build and explore in this classic version of Minecraft!</p>
                     <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for $3500</button>
+                </div><div class="game-card">
+                    <img src="https://i.postimg.cc/MGWryyCY/tmg-io.webp" alt="Kour.io">
+                    <h3>Taming.io</h3>
+                    <p>Taming.io is a multiplayer survival game where players tame pets, gather resources, and battle others!</p>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for $5000</button>
                 </div>
-            </div>                            </div>
+            </div>
+        </div>
+
         <div id="strategy" class="content-section">
             <h2>♟️ Strategy Games</h2>
             <div class="game-container">
