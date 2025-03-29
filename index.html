@@ -207,6 +207,44 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        /* New balance display styles */
+        .balance-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 30px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .balance-amount {
+            font-weight: bold;
+            font-size: 18px;
+            color: #FFD700;
+        }
+        .add-balance-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .add-balance-btn:hover {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.3);
+        }
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -231,6 +269,11 @@
             .game-card {
                 width: 45%;
             }
+            .balance-display {
+                top: 70px;
+                right: 10px;
+                padding: 8px 12px;
+            }
         }
         @media (max-width: 480px) {
             .game-card {
@@ -240,10 +283,30 @@
                 font-size: 14px;
                 padding: 3px;
             }
+            .balance-display {
+                top: 65px;
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+            .balance-amount {
+                font-size: 16px;
+            }
+            .add-balance-btn {
+                font-size: 16px;
+                width: 25px;
+                height: 25px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Balance Display Box (added at the top right) -->
+   <div class="balance-display">
+    <span>Total Balance: </span>
+    <span class="balance-amount" id="globalBalance">1000</span> Coins
+    <button class="add-balance-btn" onclick="showSection('trading')">+</button>
+</div>
+
     <div class="sidebar">
        <button onclick="showSection('home')" style="
     background: none;
@@ -358,11 +421,7 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         ">
-            <h3 style="
-                font-size: 22px;
-                margin: 0;
-                color: #ffdd57;
-            ">Total Balance: $<span id="totalBalance">1000</span></h3>
+           <h3 style="font-size: 22px; margin: 0; color: #ffdd57;">Total Balance: <span id="totalBalance">1000</span> Coins</h3>
         </div>
         <div class="input-group" style="
             display: flex;
@@ -485,127 +544,127 @@
                     <img src="https://i.postimg.cc/q7pM5SWL/2024-gm.png" alt="2048 Game">
                     <h3>2048</h3>
                     <p>A fun and addictive puzzle game where you combine tiles to reach the 2048 tile!</p>
-                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for $1500</button>
+                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for 1500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/GppJ17yF/slithergm.png" alt="Slither.io">
                     <h3>Slither.io</h3>
                     <p>Control a snake and grow as large as possible while avoiding other players!</p>
-                    <button class="game-button locked" data-price="2000" onclick="unlockGame(this)" data-link="https://slither.io/">🔒 Unlock for $2000</button>
+                    <button class="game-button locked" data-price="2000" onclick="unlockGame(this)" data-link="https://slither.io/">🔒 Unlock for 2000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/zvw0fLXK/agrgm.png" alt="Agar.io">
                     <h3>Agar.io</h3>
                     <p>Grow your cell by eating smaller cells and avoid being eaten by larger ones!</p>
-                    <button class="game-button locked" data-price="2500" onclick="unlockGame(this)" data-link="https://agar.io/">🔒 Unlock for $2500</button>
+                    <button class="game-button locked" data-price="2500" onclick="unlockGame(this)" data-link="https://agar.io/">🔒 Unlock for 2500 coins</button>
                 </div>                 <div class="game-card">
                     <img src="https://i.postimg.cc/FFdkQ16T/dp-io.webp" alt="https://deeeep.io/">
                     <h3>Deeeep.io</h3>
                     <p>Dive into Deeeep.io—evolve as a sea creature, hunt, and survive in a deadly underwater battle royale!</p>
-                    <button class="game-button locked" data-price="7000" onclick="unlockGame(this)" data-link="https://deeeep.io/">🔒 Unlock for $7000</button>
+                    <button class="game-button locked" data-price="7000" onclick="unlockGame(this)" data-link="https://deeeep.io/">🔒 Unlock for 7000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/xjFdssfr/krnkrgm.png" alt="Krunker.io">
                     <h3>Krunker.io</h3>
                     <p>A fast-paced multiplayer first-person shooter game in your browser!</p>
-                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for $3000</button>
+                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for 3000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/dtF1CM3B/mncraft.png" alt="Minecraft Classic">
                     <h3>Minecraft Classic</h3>
                     <p>Build and explore in this classic version of Minecraft directly in your browser!</p>
-                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for $3500</button>
+                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for 3500 coins</button>
                 </div><div class="game-card">
                     <img src="https://i.postimg.cc/63VXzmcj/tnks-io.webp" alt="https://tankionline.com/en/">
                     <h3>Tanks.io</h3>
                     <p>Destroy enemy tanks, capture flags, or dominate in team battles!</p>
-                    <button class="game-button locked" data-price="8000" onclick="unlockGame(this)" data-link="https://tankionline.com/play/">🔒 Unlock for $8000</button>
+                    <button class="game-button locked" data-price="8000" onclick="unlockGame(this)" data-link="https://tankionline.com/play/">🔒 Unlock for 8000 coins</button>
                 </div>  <div class="game-card">
                     <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
                     <h3>Starve.io</h3>
                     <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
                 </div><div class="game-card">
                     <img src="https://i.postimg.cc/br0sNM56/slrds.webp" alt="https://slowroads.io/">
                     <h3>Slow roads</h3>
                     <p>Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for 6500 coins</button>
                 </div> <div class="game-card">
                     <img src="https://i.postimg.cc/52rh0QJf/stckcrrc.png" alt="https://b10b.com/stockcarhero/">
                     <h3>Stock Car Hero</h3>
                     <p>Race modified stock cars in intense oval track battles with realistic physics and upgrades!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://b10b.com/stockcarhero/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://b10b.com/stockcarhero/">🔒 Unlock for 6500 coins</button>
                 </div> <div class="game-card">
                     <img src="https://i.postimg.cc/RV1dJwBt/brtl-io.webp" alt="https://brutal.io/">
                     <h3>Brutal.io</h3>
                     <p>A savage survival game where you devour meat, crush rivals, and dominate the arena!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://brutal.io/#google_vignette">🔒 Unlock for $6000</button>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://brutal.io/#google_vignette">🔒 Unlock for 6000 coins</button>
                 </div>                <div class="game-card">
                     <img src="https://i.postimg.cc/MGWryyCY/tmg-io.webp" alt="https://taming.io/">
                     <h3>Taming.io</h3>
                     <p>Taming.io is a multiplayer survival game where players tame pets, gather resources, and battle others!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for $5000</button>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for 5000 coins</button>
                 </div>
               <div class="game-card">
                     <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
                     <h3>Kour.io</h3>
                     <p>A fast-paced multiplayer FPS with smooth controls, epic gunfights, and nonstop action!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for $6000</button>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for 6000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/Y9Fwbxb7/ttrsgm.png" alt="Tetris">
                     <h3>Tetris</h3>
                     <p>The classic block-stacking game that challenges your speed and strategy!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for $4000</button>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for 4000 coins</button>
                 </div> <div class="game-card">
                     <img src="https://i.postimg.cc/BZzwGHLJ/evowrs.webp" alt="Pac-Man">
                     <h3>Evowars.io</h3>
                     <p>Grow by defeating smaller players, evolve, and dominate in this fast-paced multiplayer game!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://evowars.io/">🔒 Unlock for $4500</button>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://evowars.io/">🔒 Unlock for 4500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/QMxzFJRm/pcmngm.png" alt="Pac-Man">
                     <h3>Pac-Man</h3>
                     <p>Guide Pac-Man through the maze while avoiding ghosts in this iconic game!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for $4500</button>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for 4500 coins</button>
                 </div><div class="game-card">
                     <img src="https://i.postimg.cc/HW6SxYW4/shlsckrs.webp" alt="https://shellshock.io/">
                     <h3>shell shockers</h3>
                     <p>A chaotic FPS where you play as an egg, shooting opponents to crack them!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://shellshock.io/">🔒 Unlock for $4500</button>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://shellshock.io/">🔒 Unlock for 4500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/BbXs2Gkh/snkgm.png" alt="Snake Game">
                     <h3>Snake Game</h3>
                     <p>Control the snake, eat food, and grow as long as possible without crashing!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for $5000</button>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for 5000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/255NvDPP/chss.png" alt="Chess">
                     <h3>Chess</h3>
                     <p>Challenge your mind with the classic game of strategy and tactics!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for $5500</button>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for 5500 coins</button>
                 </div> <div class="game-card">
                     <img src="https://i.postimg.cc/7YrWbfyY/diep-gm.webp" alt="Diep.io">
                     <h3>Diep.io</h3>
                     <p>Multiplayer tank battle in a 2D arena. Earn XP, upgrade stats, evolve classes ,Compete globally!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for $5500</button>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for 5500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
                     <h3>Sudoku</h3>
                     <p>Solve the puzzle by filling the grid with numbers from 1 to 9!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for $6000</button>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for 6000 coins</button>
                 </div><div class="game-card">
                     <img src="https://i.postimg.cc/Jhc21jdP/gts.webp" alt="https://gats.io/">
                     <h3>Gats.io</h3>
                     <p>A fast-paced pixel shooter with tactical gameplay, team battles, and customizable weapons!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://gats.io/">🔒 Unlock for $6000</button>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://gats.io/">🔒 Unlock for 6000 coins</button>
                 </div>                            <div class="game-card">
                     <img src="https://i.postimg.cc/3xCcwfY7/crv.webp" alt="https://curvefever.pro/">
                     <h3>Curve Fever</h3>
                     <p>Fast-paced snake game where you trap rivals with your spinning trail. Last one standing wins!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://curvefever.pro/">🔒 Unlock for $4000</button>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://curvefever.pro/">🔒 Unlock for 4000 coins</button>
                 </div>  
             </div>
         </div>
@@ -618,24 +677,24 @@
                     <img src="https://i.postimg.cc/xjFdssfr/krnkrgm.png" alt="Krunker.io">
                     <h3>Krunker.io</h3>
                     <p>Fast-paced multiplayer FPS with smooth movement and gunplay!</p>
-                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for $3000</button>
+                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for 3000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/HW6SxYW4/shlsckrs.webp" alt="Shell Shockers">
                     <h3>Shell Shockers</h3>
                     <p>Egg-based first-person shooter with various weapons and modes!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://shellshock.io/">🔒 Unlock for $4500</button>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://shellshock.io/">🔒 Unlock for 4500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
                     <h3>Kour.io</h3>
                     <p>Fast-paced multiplayer FPS with smooth controls and action!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for $6000</button>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for 6000 coins</button>
                 </div><div class="game-card">
                     <img src="https://i.postimg.cc/63VXzmcj/tnks-io.webp" alt="https://tankionline.com/en/">
                     <h3>Tanks.io</h3>
                     <p>Destroy enemy tanks, capture flags, or dominate in team battles!</p>
-                    <button class="game-button locked" data-price="8000" onclick="unlockGame(this)" data-link="https://tankionline.com/play/">🔒 Unlock for $8000</button>
+                    <button class="game-button locked" data-price="8000" onclick="unlockGame(this)" data-link="https://tankionline.com/play/">🔒 Unlock for 8000 coins</button>
                 </div> 
             </div>
         </div>
@@ -647,13 +706,13 @@
                     <img src="https://i.postimg.cc/dtF1CM3B/mncraft.png" alt="Minecraft Classic">
                     <h3>Minecraft Classic</h3>
                     <p>Build and explore in this classic version of Minecraft!</p>
-                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for $3500</button>
+                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for 3500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="Starve.io">
                     <h3>Starve.io</h3>
                     <p>Survival game where you gather resources and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
                 </div>
             </div>
         </div>
@@ -665,19 +724,19 @@
                     <img src="https://i.postimg.cc/q7pM5SWL/2024-gm.png" alt="2048">
                     <h3>2048</h3>
                     <p>Combine tiles to reach the 2048 tile in this addictive puzzle game!</p>
-                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for $1500</button>
+                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for 1500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
                     <h3>Sudoku</h3>
                     <p>Classic number puzzle that challenges your logic skills!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for $6000</button>
+                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for 6000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/Y9Fwbxb7/ttrsgm.png" alt="Tetris">
                     <h3>Tetris</h3>
                     <p>Iconic block-stacking game that tests your speed and strategy!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for $4000</button>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for 4000 coins</button>
                 </div>
             </div>
         </div>
@@ -688,23 +747,23 @@
                     <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
                     <h3>Starve.io</h3>
                     <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/FFdkQ16T/dp-io.webp" alt="https://deeeep.io/">
                     <h3>Deeeep.io</h3>
                     <p>Dive into Deeeep.io—evolve as a sea creature, hunt, and survive in a deadly underwater battle royale!</p>
-                    <button class="game-button locked" data-price="7000" onclick="unlockGame(this)" data-link="https://deeeep.io/">🔒 Unlock for $7000</button>
+                    <button class="game-button locked" data-price="7000" onclick="unlockGame(this)" data-link="https://deeeep.io/">🔒 Unlock for 7000 coins</button>
                 </div>                 <div class="game-card">
                     <img src="https://i.postimg.cc/dtF1CM3B/mncraft.png" alt="Minecraft Classic">
                     <h3>Minecraft Classic</h3>
                     <p>Build and explore in this classic version of Minecraft!</p>
-                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for $3500</button>
+                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for 3500 coins</button>
                 </div><div class="game-card">
                     <img src="https://i.postimg.cc/MGWryyCY/tmg-io.webp" alt="Kour.io">
                     <h3>Taming.io</h3>
                     <p>Taming.io is a multiplayer survival game where players tame pets, gather resources, and battle others!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for $5000</button>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for 5000 coins</button>
                 </div>
             </div>
         </div>
@@ -716,18 +775,18 @@
                     <img src="https://i.postimg.cc/255NvDPP/chss.png" alt="Chess">
                     <h3>Chess</h3>
                     <p>Classic strategy game that challenges your tactical thinking!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for $5500</button>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for 5500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/7YrWbfyY/diep-gm.webp" alt="Diep.io">
                     <h3>Diep.io</h3>
                     <p>Multiplayer tank battle with upgradeable stats and classes!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for $5500</button>
+                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for 5500 coins</button>
                 </div><div class="game-card">
                     <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
                     <h3>Starve.io</h3>
                     <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
                 </div>
             </div>
         </div>
@@ -739,13 +798,13 @@
                     <img src="https://via.placeholder.com/300x200?text=Soccer+Game" alt="Soccer Game">
                     <h3>Soccer Challenge</h3>
                     <p>Test your soccer skills in this exciting sports game!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for $5000</button>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for 5000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://via.placeholder.com/300x200?text=Basketball+Game" alt="Basketball Game">
                     <h3>Basketball Pro</h3>
                     <p>Shoot hoops and score big in this basketball simulator!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for $5000</button>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for 5000 coins</button>
                 </div>
             </div>
         </div>
@@ -757,18 +816,18 @@
                     <img src="https://i.postimg.cc/br0sNM56/slrds.webp" alt="https://slowroads.io/">
                     <h3>Slow roads</h3>
                     <p>Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for 6500 coins</button>
                 </div>                  <div class="game-card">
                     <img src="https://i.postimg.cc/3xCcwfY7/crv.webp" alt="https://curvefever.pro/">
                     <h3>Curve Fever</h3>
                     <p>Fast-paced snake game where you trap rivals with your spinning trail. Last one standing wins!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://curvefever.pro/">🔒 Unlock for $4000</button>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://curvefever.pro/">🔒 Unlock for 4000 coins</button>
                 </div>  
                 <div class="game-card">
                     <img src="https://i.postimg.cc/52rh0QJf/stckcrrc.png" alt="https://b10b.com/stockcarhero/">
                     <h3>Stock Car Hero</h3>
                     <p>Race modified stock cars in intense oval track battles with realistic physics and upgrades!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://b10b.com/stockcarhero/">🔒 Unlock for $6500</button>
+                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://b10b.com/stockcarhero/">🔒 Unlock for 6500 coins</button>
                 </div>
             </div>
         </div>
@@ -780,19 +839,19 @@
                     <img src="https://i.postimg.cc/QMxzFJRm/pcmngm.png" alt="Pac-Man">
                     <h3>Pac-Man</h3>
                     <p>Guide Pac-Man through the maze while avoiding ghosts!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for $4500</button>
+                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for 4500 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://i.postimg.cc/BbXs2Gkh/snkgm.png" alt="Snake Game">
                     <h3>Snake Game</h3>
                     <p>Classic snake game where you grow as long as possible!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for $5000</button>
+                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for 5000 coins</button>
                 </div>
                 <div class="game-card">
                     <img src="https://via.placeholder.com/300x200?text=Space+Invaders" alt="Space Invaders">
                     <h3>Space Invaders</h3>
                     <p>Defend Earth from alien invaders in this arcade classic!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for $4000</button>
+                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for 4000 coins</button>
                 </div>
             </div>
         </div>
@@ -814,7 +873,7 @@
             return;
         }
         if (multiplier < 3 || multiplier > 20) {
-            alert("Please enter a valid multiplier (3-20).");
+            alert("Please enter a valid turn to stop trade (3-20).");
             return;
         }
 
@@ -837,7 +896,10 @@
             totalBalance += profitLoss;
             localStorage.setItem("totalBalance", totalBalance.toString());
 
+            // Update both balance displays
             document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+            document.getElementById("globalBalance").innerText = totalBalance.toFixed(2);
+            
             document.getElementById("initialNumber").innerText = initialNumber;
             document.getElementById("finalNumber").innerText = number;
             document.getElementById("profitLoss").innerText = profitLoss > 0 ? `+${profitLoss}` : profitLoss;
@@ -892,7 +954,10 @@
         if (totalBalance >= price) {
             totalBalance -= price;
             localStorage.setItem("totalBalance", totalBalance.toString());
+            
+            // Update both balance displays
             document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+            document.getElementById("globalBalance").innerText = totalBalance.toFixed(2);
             
             // Store both unlocked status and link
             unlockedGames[gameName] = {
@@ -906,7 +971,7 @@
             
             alert("Game unlocked successfully!");
         } else {
-            alert("Insufficient balance. Play the trading game to earn more money!");
+            alert("Play the trading game to earn more coins!");
         }
     }
 
@@ -935,7 +1000,9 @@
         const savedBalance = localStorage.getItem("totalBalance");
         if (savedBalance) {
             totalBalance = parseFloat(savedBalance);
+            // Update both balance displays
             document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
+            document.getElementById("globalBalance").innerText = totalBalance.toFixed(2);
         }
         
         // Restore unlocked game states with their links
