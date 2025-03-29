@@ -28,7 +28,11 @@
     
     <!-- Preload Resources -->
     <link rel="preload" href="style.css" as="style">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <!-- Ads Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7317481199010812" crossorigin="anonymous"></script>
@@ -189,6 +193,15 @@
             display: none;
             font-size: 18px;
             margin-top: 10px;
+        }
+        #chart {
+            width: 100%;
+            max-height: 300px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -847,6 +860,15 @@
                         pointBackgroundColor: "#21bf73",
                         tension: 0.4
                     }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
                 }
             });
 
