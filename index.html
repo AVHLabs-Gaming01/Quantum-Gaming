@@ -640,7 +640,7 @@
         <i class="fas fa-moon"></i>
     </button>
     
-    <!-- Balance Display -->
+   <!-- Balance Display -->
 <div class="balance-display">
     <span>Balance: </span>
     <span class="balance-amount" id="globalBalance">1000</span> Coins
@@ -648,20 +648,21 @@
         <i class="fas fa-plus"></i>
     </button>
 </div>
+    
     <!-- Sidebar Navigation -->
     <div class="sidebar">
-        <button onclick="showSection('home')" class="active" data-tooltip="Home">
-            <i class="fas fa-home"></i>
-            <span class="tooltip">Home</span>
-        </button>
+       <button onclick="showSection('home')" data-tooltip="Home">
+        <i class="fas fa-home"></i>
+        <span class="tooltip">Home</span>
+    </button>
         <button onclick="showSection('trading')" data-tooltip="Trading">
             <i class="fas fa-chart-line"></i>
             <span class="tooltip">Trading</span>
         </button>
-        <button onclick="showSection('gaming')" data-tooltip="Games">
-            <i class="fas fa-gamepad"></i>
-            <span class="tooltip">Games</span>
-        </button>
+       <button onclick="showSection('gaming')" class="active" data-tooltip="Games">
+        <i class="fas fa-gamepad"></i>
+        <span class="tooltip">Games</span>
+    </button>
         
         <!-- Genre Filters -->
         <button onclick="showSection('action')" data-tooltip="Action">
@@ -1125,7 +1126,7 @@
             renderMarketNews();
             updateBalanceDisplay();
             setupEventListeners();
-            showSection('home');
+            showSection('gaming');
         }
         
         // Load saved data from localStorage
