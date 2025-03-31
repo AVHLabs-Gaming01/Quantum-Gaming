@@ -1219,7 +1219,7 @@
             document.getElementById(sectionId).classList.add("active");
             
             // Activate the corresponding sidebar button
-            const activeButton = document.querySelector(.sidebar button[onclick="showSection('${sectionId}')"]);
+            const activeButton = document.querySelector(`.sidebar button[onclick="showSection('${sectionId}')"]`);
             if (activeButton) {
                 activeButton.classList.add("active");
             }
@@ -1248,13 +1248,13 @@
             });
             
             // Activate the selected tab
-            const activeTab = document.querySelector(.trading-tab[onclick="showTradingTab('${tabId}')"]);
+            const activeTab = document.querySelector(`.trading-tab[onclick="showTradingTab('${tabId}')"]`);
             if (activeTab) {
                 activeTab.classList.add("active");
             }
             
             // Show the corresponding content
-            document.getElementById(${tabId}-tab).classList.add("active");
+            document.getElementById(`${tabId}-tab`).classList.add("active");
         }
         
         // Execute a trade
@@ -1298,7 +1298,7 @@
                         
                     // Add news to feed
                     addNewsToFeed({
-                        title: ${company.toUpperCase()} Affected: ${randomNews.title},
+                        title: `${company.toUpperCase()} Affected: ${randomNews.title}`,
                         content: randomNews.content,
                         impact: randomNews.impact
                     });
@@ -1339,7 +1339,7 @@
                 
                 const profitLossElement = document.getElementById("profitLoss");
                 profitLossElement.textContent = profitLoss >= 0 ? 
-                    +${profitLoss.toFixed(2)} : 
+                    `+${profitLoss.toFixed(2)}` : 
                     profitLoss.toFixed(2);
                 profitLossElement.style.color = profitLoss >= 0 ? "var(--success)" : "var(--danger)";
                 
@@ -1376,14 +1376,14 @@
             }
             
             // Create labels for each day
-            const labels = prices.map((_, i) => i === 0 ? "Day 0 (Buy)" : Day ${i});
+            const labels = prices.map((_, i) => i === 0 ? "Day 0 (Buy)" : `Day ${i}`);
             
             chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: ${company.toUpperCase()} Stock Price,
+                        label: `${company.toUpperCase()} Stock Price`,
                         data: prices,
                         borderColor: "var(--primary)",
                         borderWidth: 2,
@@ -1481,7 +1481,7 @@
             saveData();
             
             // Show confirmation
-            alert(Successfully sold ${investment.shares} shares of ${investment.company.toUpperCase()} for $${currentValue.toFixed(2)}!);
+            alert(`Successfully sold ${investment.shares} shares of ${investment.company.toUpperCase()} for $${currentValue.toFixed(2)}!`);
         }
         
         // Render market news
@@ -1501,7 +1501,7 @@
         function addNewsToFeed(news) {
             const newsFeed = document.getElementById("newsFeed");
             const newsItem = document.createElement("div");
-            newsItem.className = news-item ${news.impact};
+            newsItem.className = `news-item ${news.impact}`;
             
             const now = new Date();
             const timeString = now.toLocaleTimeString();
@@ -1574,7 +1574,7 @@
             
             // Add to genre-specific containers if different from main genre
             if (game.genre) {
-                const genreContainer = document.querySelector(.game-container[data-genre="${game.genre}"]);
+                const genreContainer = document.querySelector(`.game-container[data-genre="${game.genre}"]`);
                 if (genreContainer) {
                     genreContainer.appendChild(gameCard.cloneNode(true));
                 }
@@ -1596,7 +1596,7 @@
                 saveData();
                 
                 // Show success message
-                alert("${gameName}" has been unlocked! You can now play it anytime.);
+                alert(`"${gameName}" has been unlocked! You can now play it anytime.`);
                 
                 // Show confetti
                 confetti({
@@ -1605,7 +1605,7 @@
                     origin: { y: 0.6 }
                 });
             } else {
-                alert(You need ${price - totalBalance} more coins to unlock this game. Keep trading!);
+                alert(`You need ${price - totalBalance} more coins to unlock this game. Keep trading!`);
             }
         }
         
@@ -1641,4 +1641,4 @@
         window.onload = init;
     </script>
 </body>
-</html
+</html>
