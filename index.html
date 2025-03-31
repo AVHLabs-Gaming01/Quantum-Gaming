@@ -29,14 +29,40 @@
     <!-- Preload Resources -->
     <link rel="preload" href="style.css" as="style">
     
-    <!-- Chart.js Library -->
+    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Ads Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7317481199010812" crossorigin="anonymous"></script>
+    
     <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ffdd57;
+            --text-light: #f8f9fa;
+            --text-dark: #212529;
+            --bg-dark: #121212;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --success: #21bf73;
+            --danger: #ff4500;
+            --warning: #fd7e14;
+            --info: #17a2b8;
+        }
+        
+        [data-theme="dark"] {
+            --primary: #7c4dff;
+            --secondary: #448aff;
+            --accent: #ffca28;
+            --text-light: #e0e0e0;
+            --text-dark: #f5f5f5;
+            --bg-dark: #1e1e1e;
+            --card-bg: rgba(30, 30, 30, 0.9);
+        }
+        
         body {
             font-family: "Poppins", sans-serif;
             margin: 0;
@@ -44,16 +70,46 @@
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            color: white;
+            color: var(--text-light);
             display: flex;
+            min-height: 100vh;
+            transition: all 0.3s ease;
         }
+        
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            color: var(--text-light);
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Sidebar */
         .sidebar {
-            width: 7.69%; /* 1:13 ratio (100/13) */
+            width: 80px;
             height: 100vh;
             background: rgba(0, 0, 0, 0.3);
             padding: 10px 0;
@@ -63,151 +119,257 @@
             position: fixed;
             left: 0;
             overflow-y: auto;
-            border-radius: 5px;
             box-sizing: border-box;
+            z-index: 100;
+            transition: all 0.3s ease;
         }
+        
         .sidebar button {
             width: 100%;
             background: none;
             border: none;
-            padding: 10px;
+            padding: 12px 0;
             cursor: pointer;
             font-size: 22px;
-            color: black; /* Changed to black text */
-            transition: background 0.3s ease;
+            color: var(--text-light);
+            transition: all 0.3s ease;
             text-align: center;
             box-sizing: border-box;
+            position: relative;
         }
+        
         .sidebar button:hover {
             background: rgba(255, 255, 255, 0.1);
         }
+        
+        .sidebar button.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar button .tooltip {
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            margin-left: 10px;
+        }
+        
+        .sidebar button:hover .tooltip {
+            opacity: 1;
+        }
+        
+        /* Content */
         .content {
             flex-grow: 1;
-            margin-left: 7.69%; /* Same as sidebar width */
+            margin-left: 80px;
             padding: 20px;
             text-align: center;
             box-sizing: border-box;
+            transition: margin-left 0.3s ease;
         }
+        
         .content-section {
             display: none;
             animation: fadeIn 0.5s ease;
         }
-        .active {
+        
+        .content-section.active {
             display: block;
         }
+        
+        /* Home Section */
         .home-content {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-height: 86vh;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-height: calc(100vh - 120px);
             overflow-y: auto;
-            color: #333;
+            color: var(--text-dark);
         }
+        
         .home-content h1 {
             font-size: 2.5rem;
-            color: purple;
+            color: var(--primary);
             margin-bottom: 20px;
         }
+        
         .home-content h2 {
             font-size: 2rem;
-            color: #333;
+            color: var(--text-dark);
             margin-bottom: 15px;
         }
+        
         .home-content p {
             font-size: 1.1rem;
             line-height: 1.6;
-            color: #555;
+            color: var(--text-dark);
             margin-bottom: 20px;
         }
+        
         .home-content ul {
             text-align: left;
             margin: 20px 0;
             padding-left: 20px;
         }
+        
         .home-content ul li {
             margin-bottom: 10px;
             font-size: 1rem;
-            color: #555;
+            color: var(--text-dark);
         }
+        
         .home-content .highlight {
-            color: purple;
+            color: var(--primary);
             font-weight: bold;
         }
-        .balance-box, .result-box {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            color: #333;
-        }
+        
+        /* Trading Section */
         .trading-container {
-            max-height: 70vh;
+            max-height: calc(100vh - 180px);
             overflow-y: auto;
-            padding: 10px;
-            color: #000;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin-top: 20px;
         }
-        .game-container {
+        
+        .trading-header {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .trading-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .trading-tab {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .trading-tab.active {
+            background: var(--primary);
+        }
+        
+        .trading-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Game Cards */
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
-            max-height: 80vh;
+            max-height: calc(100vh - 180px);
             overflow-y: auto;
             padding: 10px;
         }
+        
         .game-card {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 0px;
+            background: var(--card-bg);
             border-radius: 10px;
-            width: 30%;
+            overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            color: #333;
+            transition: all 0.3s ease;
+            position: relative;
+            color: var(--text-dark);
         }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
         .game-card img {
             width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
+        
+        .game-card-content {
+            padding: 15px;
+        }
+        
+        .game-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .game-card p {
+            margin: 0 0 15px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        .game-card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
         .game-button {
             display: inline-block;
-            padding: 10px 20px;
-            background: purple;
+            padding: 8px 16px;
+            background: var(--primary);
             color: white;
             text-decoration: none;
             border-radius: 5px;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
+        
         .game-button:hover {
-            background: #6a1b9a;
+            background: var(--secondary);
+            transform: translateY(-2px);
         }
+        
         .game-button.locked {
             background: #71797E;
             cursor: not-allowed;
         }
-        #loading {
-            display: none;
-            font-size: 18px;
-            margin-top: 10px;
+        
+        .game-button.locked:hover {
+            transform: none;
+            background: #71797E;
         }
-        #chart {
-            width: 100%;
-            max-height: 300px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 10px;
-            box-sizing: border-box;
+        
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        .favorite-btn.favorited {
+            color: var(--danger);
         }
-        /* New balance display styles */
+        
+        /* Balance Display */
         .balance-display {
             position: fixed;
             top: 20px;
@@ -220,12 +382,15 @@
             border-radius: 30px;
             z-index: 1000;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
         }
+        
         .balance-amount {
             font-weight: bold;
             font-size: 18px;
-            color: #FFD700;
+            color: var(--accent);
         }
+        
         .add-balance-btn {
             background: none;
             border: none;
@@ -241,10 +406,158 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
         }
+        
         .add-balance-btn:hover {
             transform: scale(1.2);
             background: rgba(255, 255, 255, 0.3);
         }
+        
+        /* Trading Form */
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .input-group select,
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group select:focus,
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.3);
+        }
+        
+        /* Trading Results */
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-light);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .result-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .result-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        /* Loading Animation */
+        #loading {
+            display: none;
+            font-size: 18px;
+            margin: 20px 0;
+            color: var(--text-light);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Portfolio */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .portfolio-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .portfolio-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        /* News Feed */
+        .news-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        
+        .news-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .news-item h4 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        
+        .news-item .news-time {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .content {
+                margin-left: 70px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -257,126 +570,139 @@
                 z-index: 1000;
                 padding: 5px 0;
             }
+            
             .sidebar button {
                 padding: 5px;
-                font-size: 14px;
+                font-size: 18px;
             }
+            
+            .sidebar button .tooltip {
+                display: none;
+            }
+            
             .content {
                 margin-left: 0;
-                margin-top: 60px;
+                margin-top: 70px;
                 width: 100%;
+                padding: 15px;
             }
-            .game-card {
-                width: 45%;
+            
+            .game-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
+            
             .balance-display {
-                top: 70px;
+                top: 80px;
                 right: 10px;
                 padding: 8px 12px;
             }
-        }
-        @media (max-width: 480px) {
-            .game-card {
-                width: 100%;
+            
+            .theme-toggle {
+                bottom: 70px;
             }
+        }
+        
+        @media (max-width: 480px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+            
             .sidebar button {
-                font-size: 14px;
+                font-size: 16px;
                 padding: 3px;
             }
+            
             .balance-display {
-                top: 65px;
+                top: 70px;
                 font-size: 14px;
                 padding: 5px 10px;
             }
+            
             .balance-amount {
                 font-size: 16px;
             }
+            
             .add-balance-btn {
                 font-size: 16px;
                 width: 25px;
                 height: 25px;
             }
+            
+            .home-content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Balance Display Box (added at the top right) -->
-   <div class="balance-display">
-    <span>Total Balance: </span>
-    <span class="balance-amount" id="globalBalance">1000</span> Coins
-    <button class="add-balance-btn" onclick="showSection('trading')">+</button>
-</div>
-
-    <div class="sidebar">
-       <button onclick="showSection('home')" style="
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-">
-    <img 
-        src="https://i.postimg.cc/Kj0N7Nh6/image-Photoroom-5.png" 
-        alt="Home" 
-        style="
-            width: 110px;
-            height: 40px;
-            transition: transform 0.3s ease;
-        "
-        onmouseover="this.style.transform = 'scale(1.1)';"
-        onmouseout="this.style.transform = 'scale(1)';"
-    >
-</button>
-        <button onclick="showSection('trading')" style="
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-">
-    <img 
-        src="https://i.postimg.cc/pybNZv8F/trdicn-removebg-preview.png" 
-        alt="Trade" 
-        style="
-            width: 100px;
-            height: 35px;
-            transition: transform 0.3s ease;
-        "
-        onmouseover="this.style.transform = 'scale(1.1)';"
-        onmouseout="this.style.transform = 'scale(1)';"
-    >
-</button>
-       <button onclick="showSection('gaming')" style="
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-">
-    <img 
-        src="https://i.postimg.cc/pLGS05mK/image-Photoroom-4.png" 
-        alt="Game" 
-        style="
-            width: 100px;
-            height: 30px;
-            transition: transform 0.3s ease;
-        "
-        onmouseover="this.style.transform = 'scale(1.1)';"
-        onmouseout="this.style.transform = 'scale(1)';"
-    >
-</button>
-
-<!-- New Genre Sections -->
-<button onclick="showSection('action')">Action</button>
-<button onclick="showSection('adventure')">Adventure</button>
-<button onclick="showSection('puzzle')">Puzzle</button>
-<button onclick="showSection('survival')">Survival</button>                                 <button onclick="showSection('strategy')">Strategy</button>
-<button onclick="showSection('sports')">Sports </button>
-<button onclick="showSection('racing')">Racing </button>
-<button onclick="showSection('classic')">Classic </button>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <!-- Balance Display -->
+    <div class="balance-display">
+        <span>Balance: </span>
+        <span class="balance-amount" id="globalBalance">1000</span> Coins
+        <button class="add-balance-btn" onclick="showSection('trading')" title="Earn more coins">
+            <i class="fas fa-coins"></i>
+        </button>
     </div>
+    
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <button onclick="showSection('home')" class="active" data-tooltip="Home">
+            <i class="fas fa-home"></i>
+            <span class="tooltip">Home</span>
+        </button>
+        <button onclick="showSection('trading')" data-tooltip="Trading">
+            <i class="fas fa-chart-line"></i>
+            <span class="tooltip">Trading</span>
+        </button>
+        <button onclick="showSection('gaming')" data-tooltip="Games">
+            <i class="fas fa-gamepad"></i>
+            <span class="tooltip">Games</span>
+        </button>
+        
+        <!-- Genre Filters -->
+        <button onclick="showSection('action')" data-tooltip="Action">
+            <i class="fas fa-running"></i>
+            <span class="tooltip">Action</span>
+        </button>
+        <button onclick="showSection('adventure')" data-tooltip="Adventure">
+            <i class="fas fa-mountain"></i>
+            <span class="tooltip">Adventure</span>
+        </button>
+        <button onclick="showSection('puzzle')" data-tooltip="Puzzle">
+            <i class="fas fa-puzzle-piece"></i>
+            <span class="tooltip">Puzzle</span>
+        </button>
+        <button onclick="showSection('survival')" data-tooltip="Survival">
+            <i class="fas fa-campground"></i>
+            <span class="tooltip">Survival</span>
+        </button>
+        <button onclick="showSection('strategy')" data-tooltip="Strategy">
+            <i class="fas fa-chess"></i>
+            <span class="tooltip">Strategy</span>
+        </button>
+        <button onclick="showSection('sports')" data-tooltip="Sports">
+            <i class="fas fa-basketball-ball"></i>
+            <span class="tooltip">Sports</span>
+        </button>
+        <button onclick="showSection('racing')" data-tooltip="Racing">
+            <i class="fas fa-car"></i>
+            <span class="tooltip">Racing</span>
+        </button>
+        <button onclick="showSection('classic')" data-tooltip="Classic">
+            <i class="fas fa-ghost"></i>
+            <span class="tooltip">Classic</span>
+        </button>
+    </div>
+    
+    <!-- Main Content -->
     <div class="content">
-        <div id="home" class="content-section">
+        <!-- Home Section -->
+        <div id="home" class="content-section active">
             <div class="home-content">
                 <h1>Welcome to Quantum Gaming</h1>
                 <h2>Your Gateway to Fun and Learning!</h2>
@@ -399,645 +725,920 @@
                 <p>Ready to get started? Click on the <span class="highlight">Trading</span> or <span class="highlight">Gaming</span> sections above to dive into the action!</p>
             </div>
         </div>
-        <div id="trading" class="content-section" style="
-    background: linear-gradient(135deg, #6a11cb, #e73c7e);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    color: white;
-">
-    <h2 style="
-        font-size: 28px;
-        text-align: center;
-        margin-bottom: 20px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    ">Trading Simulation</h2>
-    <div class="trading-container">
-        <div class="balance-box" style="
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        ">
-           <h3 style="font-size: 22px; margin: 0; color: #ffdd57;">Total Balance: <span id="totalBalance">1000</span> Coins</h3>
-        </div>
-        <div class="input-group" style="
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-        ">
-            <label for="company" style="
-                font-size: 18px;
-                font-weight: bold;
-                color: rgba(255, 255, 255, 0.9);
-            ">Select Company:</label>
-            <select id="company" style="
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                background: rgba(255, 255, 255, 0.1);
-                color: #FFD700;
-                font-size: 16px;
-                cursor: pointer;
-            ">
-                <option value="amazon">Amazon</option>
-                <option value="tesla">Tesla</option>
-                <option value="apple">Apple</option>
-                <option value="google">Google</option>
-                <option value="microsoft">Microsoft</option>
-                <option value="meta">Meta</option>
-                <option value="netflix">Netflix</option>
-                <option value="nvidia">NVIDIA</option>
-                <option value="intel">Intel</option>
-                <option value="amd">AMD</option>
-            </select>
-            <label for="multiplier" style="
-                font-size: 18px;
-                font-weight: bold;
-                color: rgba(255, 255, 255, 0.9);
-            ">Choose which turn to stop trade (3-20):</label>
-            <input type="number" id="multiplier" min="3" max="20" value="3" style="
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                background: rgba(255, 255, 255, 0.1);
-                color: #FFD700;
-                font-size: 16px;
-            ">
-            <label for="stocks" style="
-                font-size: 18px;
-                font-weight: bold;
-                color: rgba(255, 255, 255, 0.9);
-            ">Number of Stocks (1-1000):</label>
-            <input type="number" id="stocks" min="1" max="1000" value="1" style="
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                background: rgba(255, 255, 255, 0.1);
-                color: #FFD700;
-                font-size: 16px;
-                transition: all 0.3s ease;
-            ">
-            <button 
-                onclick="startTrading()" 
-                style="
-                    padding: 15px 30px;
-                    background: linear-gradient(135deg, #6a11cb, #2575fc);
-                    color: white;
-                    border: none;
-                    border-radius: 10px;
-                    font-size: 18px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-                    position: relative;
-                    overflow: hidden;
-                "
-                onmouseover="this.style.transform = 'scale(1.05)'; this.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';"
-                onmouseout="this.style.transform = 'scale(1)'; this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.2)';"
-            >
-                Start Trading
-            </button>
-                <div id="loading">Loading...</div>
-               <div class="result-box" style="
-    background: linear-gradient(135deg, #6a11cb, #e73c7e);
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    margin-top: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-">
-    <h3 style="
-        font-size: 24px;
-        margin-bottom: 15px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    ">Trading Results</h3>
-    <p style="
-        font-size: 18px;
-        margin: 10px 0;
-        color: rgba(255, 255, 255, 0.9);
-    ">Initial Number: <span id="initialNumber" style="font-weight: bold; color: #ffdd57;">-</span></p>
-    <p style="
-        font-size: 18px;
-        margin: 10px 0;
-        color: rgba(255, 255, 255, 0.9);
-    ">Final Number: <span id="finalNumber" style="font-weight: bold; color: #ffdd57;">-</span></p>
-    <p style="
-        font-size: 18px;
-        margin: 10px 0;
-        color: rgba(255, 255, 255, 0.9);
-    ">Profit/Loss: <span id="profitLoss" style="font-weight: bold;">-</span></p>
-</div>
-   </div>      <canvas id="chart"></canvas>
+        
+        <!-- Trading Section -->
+        <div id="trading" class="content-section">
+            <h2><i class="fas fa-chart-line"></i> Trading Simulation</h2>
+            
+            <div class="trading-tabs">
+                <div class="trading-tab active" onclick="showTradingTab('trade')">Trade</div>
+                <div class="trading-tab" onclick="showTradingTab('portfolio')">Portfolio</div>
+                <div class="trading-tab" onclick="showTradingTab('news')">Market News</div>
+            </div>
+            
+            <div class="trading-container">
+                <!-- Trade Tab -->
+                <div id="trade-tab" class="trading-tab-content active">
+                    <div class="balance-box">
+                        <h3>Total Balance: <span id="totalBalance">1000</span> Coins</h3>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="company">Select Company:</label>
+                        <select id="company">
+                            <option value="amazon">Amazon</option>
+                            <option value="tesla">Tesla</option>
+                            <option value="apple">Apple</option>
+                            <option value="google">Google</option>
+                            <option value="microsoft">Microsoft</option>
+                            <option value="meta">Meta</option>
+                            <option value="netflix">Netflix</option>
+                            <option value="nvidia">NVIDIA</option>
+                            <option value="intel">Intel</option>
+                            <option value="amd">AMD</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="tradeType">Trade Type:</label>
+                        <select id="tradeType">
+                            <option value="buy">Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="stocks">Number of Shares (1-1000):</label>
+                        <input type="number" id="stocks" min="1" max="1000" value="1">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="duration">Investment Duration (days):</label>
+                        <input type="number" id="duration" min="1" max="30" value="3">
+                    </div>
+                    
+                    <button class="game-button pulse" onclick="executeTrade()">
+                        <i class="fas fa-hand-holding-usd"></i> Execute Trade
+                    </button>
+                    
+                    <div id="loading" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Simulating market...</p>
+                    </div>
+                    
+                    <div class="result-box">
+                        <h3>Trading Results</h3>
+                        <div class="result-value">Current Price: <span id="currentPrice">-</span></div>
+                        <div class="result-value">Shares: <span id="resultShares">-</span></div>
+                        <div class="result-value">Investment: <span id="investmentAmount">-</span></div>
+                        <div class="result-value">Final Value: <span id="finalValue">-</span></div>
+                        <div class="result-value">Profit/Loss: <span id="profitLoss">-</span></div>
+                    </div>
+                    
+                    <canvas id="chart"></canvas>
+                </div>
+                
+                <!-- Portfolio Tab -->
+                <div id="portfolio-tab" class="trading-tab-content">
+                    <h3>Your Investment Portfolio</h3>
+                    <div class="portfolio-grid" id="portfolioGrid">
+                        <!-- Portfolio items will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <!-- News Tab -->
+                <div id="news-tab" class="trading-tab-content">
+                    <h3>Market News</h3>
+                    <div id="newsFeed">
+                        <!-- News items will be added here dynamically -->
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="gaming" class="content-section active">
-            <h2>🎮 Game Collection</h2>
+        
+        <!-- Gaming Section -->
+        <div id="gaming" class="content-section">
+            <h2><i class="fas fa-gamepad"></i> Game Collection</h2>
             <div class="game-container">
-                 <div class="game-card">
-                    <img src="https://i.postimg.cc/q7pM5SWL/2024-gm.png" alt="2048 Game">
-                    <h3>2048</h3>
-                    <p>A fun and addictive puzzle game where you combine tiles to reach the 2048 tile!</p>
-                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for 1500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/GppJ17yF/slithergm.png" alt="Slither.io">
-                    <h3>Slither.io</h3>
-                    <p>Control a snake and grow as large as possible while avoiding other players!</p>
-                    <button class="game-button locked" data-price="2000" onclick="unlockGame(this)" data-link="https://slither.io/">🔒 Unlock for 2000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/zvw0fLXK/agrgm.png" alt="Agar.io">
-                    <h3>Agar.io</h3>
-                    <p>Grow your cell by eating smaller cells and avoid being eaten by larger ones!</p>
-                    <button class="game-button locked" data-price="2500" onclick="unlockGame(this)" data-link="https://agar.io/">🔒 Unlock for 2500 coins</button>
-                </div>                 <div class="game-card">
-                    <img src="https://i.postimg.cc/FFdkQ16T/dp-io.webp" alt="https://deeeep.io/">
-                    <h3>Deeeep.io</h3>
-                    <p>Dive into Deeeep.io—evolve as a sea creature, hunt, and survive in a deadly underwater battle royale!</p>
-                    <button class="game-button locked" data-price="7000" onclick="unlockGame(this)" data-link="https://deeeep.io/">🔒 Unlock for 7000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/xjFdssfr/krnkrgm.png" alt="Krunker.io">
-                    <h3>Krunker.io</h3>
-                    <p>A fast-paced multiplayer first-person shooter game in your browser!</p>
-                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for 3000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/dtF1CM3B/mncraft.png" alt="Minecraft Classic">
-                    <h3>Minecraft Classic</h3>
-                    <p>Build and explore in this classic version of Minecraft directly in your browser!</p>
-                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for 3500 coins</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/63VXzmcj/tnks-io.webp" alt="https://tankionline.com/en/">
-                    <h3>Tanks.io</h3>
-                    <p>Destroy enemy tanks, capture flags, or dominate in team battles!</p>
-                    <button class="game-button locked" data-price="8000" onclick="unlockGame(this)" data-link="https://tankionline.com/play/">🔒 Unlock for 8000 coins</button>
-                </div>  <div class="game-card">
-                    <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
-                    <h3>Starve.io</h3>
-                    <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/br0sNM56/slrds.webp" alt="https://slowroads.io/">
-                    <h3>Slow roads</h3>
-                    <p>Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for 6500 coins</button>
-                </div> <div class="game-card">
-                    <img src="https://i.postimg.cc/52rh0QJf/stckcrrc.png" alt="https://b10b.com/stockcarhero/">
-                    <h3>Stock Car Hero</h3>
-                    <p>Race modified stock cars in intense oval track battles with realistic physics and upgrades!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://b10b.com/stockcarhero/">🔒 Unlock for 6500 coins</button>
-                </div> <div class="game-card">
-                    <img src="https://i.postimg.cc/RV1dJwBt/brtl-io.webp" alt="https://brutal.io/">
-                    <h3>Brutal.io</h3>
-                    <p>A savage survival game where you devour meat, crush rivals, and dominate the arena!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://brutal.io/#google_vignette">🔒 Unlock for 6000 coins</button>
-                </div>                <div class="game-card">
-                    <img src="https://i.postimg.cc/MGWryyCY/tmg-io.webp" alt="https://taming.io/">
-                    <h3>Taming.io</h3>
-                    <p>Taming.io is a multiplayer survival game where players tame pets, gather resources, and battle others!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for 5000 coins</button>
-                </div>
-              <div class="game-card">
-                    <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
-                    <h3>Kour.io</h3>
-                    <p>A fast-paced multiplayer FPS with smooth controls, epic gunfights, and nonstop action!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for 6000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/Y9Fwbxb7/ttrsgm.png" alt="Tetris">
-                    <h3>Tetris</h3>
-                    <p>The classic block-stacking game that challenges your speed and strategy!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for 4000 coins</button>
-                </div> <div class="game-card">
-                    <img src="https://i.postimg.cc/BZzwGHLJ/evowrs.webp" alt="Pac-Man">
-                    <h3>Evowars.io</h3>
-                    <p>Grow by defeating smaller players, evolve, and dominate in this fast-paced multiplayer game!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://evowars.io/">🔒 Unlock for 4500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/QMxzFJRm/pcmngm.png" alt="Pac-Man">
-                    <h3>Pac-Man</h3>
-                    <p>Guide Pac-Man through the maze while avoiding ghosts in this iconic game!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for 4500 coins</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/HW6SxYW4/shlsckrs.webp" alt="https://shellshock.io/">
-                    <h3>shell shockers</h3>
-                    <p>A chaotic FPS where you play as an egg, shooting opponents to crack them!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://shellshock.io/">🔒 Unlock for 4500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/BbXs2Gkh/snkgm.png" alt="Snake Game">
-                    <h3>Snake Game</h3>
-                    <p>Control the snake, eat food, and grow as long as possible without crashing!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for 5000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/255NvDPP/chss.png" alt="Chess">
-                    <h3>Chess</h3>
-                    <p>Challenge your mind with the classic game of strategy and tactics!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for 5500 coins</button>
-                </div> <div class="game-card">
-                    <img src="https://i.postimg.cc/7YrWbfyY/diep-gm.webp" alt="Diep.io">
-                    <h3>Diep.io</h3>
-                    <p>Multiplayer tank battle in a 2D arena. Earn XP, upgrade stats, evolve classes ,Compete globally!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for 5500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
-                    <h3>Sudoku</h3>
-                    <p>Solve the puzzle by filling the grid with numbers from 1 to 9!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for 6000 coins</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/Jhc21jdP/gts.webp" alt="https://gats.io/">
-                    <h3>Gats.io</h3>
-                    <p>A fast-paced pixel shooter with tactical gameplay, team battles, and customizable weapons!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://gats.io/">🔒 Unlock for 6000 coins</button>
-                </div>                            <div class="game-card">
-                    <img src="https://i.postimg.cc/3xCcwfY7/crv.webp" alt="https://curvefever.pro/">
-                    <h3>Curve Fever</h3>
-                    <p>Fast-paced snake game where you trap rivals with your spinning trail. Last one standing wins!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://curvefever.pro/">🔒 Unlock for 4000 coins</button>
-                </div>  
+                <!-- Game cards will be generated dynamically -->
             </div>
         </div>
-
-        <!-- New Genre Sections Content -->
+        
+        <!-- Genre Sections -->
         <div id="action" class="content-section">
-            <h2>🔫 Action Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/xjFdssfr/krnkrgm.png" alt="Krunker.io">
-                    <h3>Krunker.io</h3>
-                    <p>Fast-paced multiplayer FPS with smooth movement and gunplay!</p>
-                    <button class="game-button locked" data-price="3000" onclick="unlockGame(this)" data-link="https://krunker.io/">🔒 Unlock for 3000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/HW6SxYW4/shlsckrs.webp" alt="Shell Shockers">
-                    <h3>Shell Shockers</h3>
-                    <p>Egg-based first-person shooter with various weapons and modes!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://shellshock.io/">🔒 Unlock for 4500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/1t8YHkK5/krgm.webp" alt="Kour.io">
-                    <h3>Kour.io</h3>
-                    <p>Fast-paced multiplayer FPS with smooth controls and action!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://kour.io/">🔒 Unlock for 6000 coins</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/63VXzmcj/tnks-io.webp" alt="https://tankionline.com/en/">
-                    <h3>Tanks.io</h3>
-                    <p>Destroy enemy tanks, capture flags, or dominate in team battles!</p>
-                    <button class="game-button locked" data-price="8000" onclick="unlockGame(this)" data-link="https://tankionline.com/play/">🔒 Unlock for 8000 coins</button>
-                </div> 
+            <h2><i class="fas fa-running"></i> Action Games</h2>
+            <div class="game-container" data-genre="action">
+                <!-- Action games will be added here dynamically -->
             </div>
         </div>
-
+        
         <div id="adventure" class="content-section">
-            <h2>🏕️ Adventure Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/dtF1CM3B/mncraft.png" alt="Minecraft Classic">
-                    <h3>Minecraft Classic</h3>
-                    <p>Build and explore in this classic version of Minecraft!</p>
-                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for 3500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="Starve.io">
-                    <h3>Starve.io</h3>
-                    <p>Survival game where you gather resources and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
-                </div>
+            <h2><i class="fas fa-mountain"></i> Adventure Games</h2>
+            <div class="game-container" data-genre="adventure">
+                <!-- Adventure games will be added here dynamically -->
             </div>
         </div>
-
+        
         <div id="puzzle" class="content-section">
-            <h2>🧩 Puzzle Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/q7pM5SWL/2024-gm.png" alt="2048">
-                    <h3>2048</h3>
-                    <p>Combine tiles to reach the 2048 tile in this addictive puzzle game!</p>
-                    <button class="game-button locked" data-price="1500" onclick="unlockGame(this)" data-link="https://play2048.co/">🔒 Unlock for 1500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/MHd52CG8/sdkgm.png" alt="Sudoku">
-                    <h3>Sudoku</h3>
-                    <p>Classic number puzzle that challenges your logic skills!</p>
-                    <button class="game-button locked" data-price="6000" onclick="unlockGame(this)" data-link="https://sudoku.com/">🔒 Unlock for 6000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/Y9Fwbxb7/ttrsgm.png" alt="Tetris">
-                    <h3>Tetris</h3>
-                    <p>Iconic block-stacking game that tests your speed and strategy!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://tetris.com/play-tetris">🔒 Unlock for 4000 coins</button>
-                </div>
+            <h2><i class="fas fa-puzzle-piece"></i> Puzzle Games</h2>
+            <div class="game-container" data-genre="puzzle">
+                <!-- Puzzle games will be added here dynamically -->
             </div>
         </div>
- <div id="survival" class="content-section">
-            <h2>🧩 Survival Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
-                    <h3>Starve.io</h3>
-                    <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/FFdkQ16T/dp-io.webp" alt="https://deeeep.io/">
-                    <h3>Deeeep.io</h3>
-                    <p>Dive into Deeeep.io—evolve as a sea creature, hunt, and survive in a deadly underwater battle royale!</p>
-                    <button class="game-button locked" data-price="7000" onclick="unlockGame(this)" data-link="https://deeeep.io/">🔒 Unlock for 7000 coins</button>
-                </div>                 <div class="game-card">
-                    <img src="https://i.postimg.cc/dtF1CM3B/mncraft.png" alt="Minecraft Classic">
-                    <h3>Minecraft Classic</h3>
-                    <p>Build and explore in this classic version of Minecraft!</p>
-                    <button class="game-button locked" data-price="3500" onclick="unlockGame(this)" data-link="https://classic.minecraft.net/">🔒 Unlock for 3500 coins</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/MGWryyCY/tmg-io.webp" alt="Kour.io">
-                    <h3>Taming.io</h3>
-                    <p>Taming.io is a multiplayer survival game where players tame pets, gather resources, and battle others!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://taming.io/">🔒 Unlock for 5000 coins</button>
-                </div>
+        
+        <div id="survival" class="content-section">
+            <h2><i class="fas fa-campground"></i> Survival Games</h2>
+            <div class="game-container" data-genre="survival">
+                <!-- Survival games will be added here dynamically -->
             </div>
         </div>
-
+        
         <div id="strategy" class="content-section">
-            <h2>♟️ Strategy Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/255NvDPP/chss.png" alt="Chess">
-                    <h3>Chess</h3>
-                    <p>Classic strategy game that challenges your tactical thinking!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://www.chess.com/play/computer">🔒 Unlock for 5500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/7YrWbfyY/diep-gm.webp" alt="Diep.io">
-                    <h3>Diep.io</h3>
-                    <p>Multiplayer tank battle with upgradeable stats and classes!</p>
-                    <button class="game-button locked" data-price="5500" onclick="unlockGame(this)" data-link="https://diep.io">🔒 Unlock for 5500 coins</button>
-                </div><div class="game-card">
-                    <img src="https://i.postimg.cc/6Qq0RbrP/strv-io.webp" alt="https://starve.io/">
-                    <h3>Starve.io</h3>
-                    <p>A harsh survival game where you gather resources, craft tools, and fight to stay alive!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://starve.io/">🔒 Unlock for 6500 coins</button>
-                </div>
+            <h2><i class="fas fa-chess"></i> Strategy Games</h2>
+            <div class="game-container" data-genre="strategy">
+                <!-- Strategy games will be added here dynamically -->
             </div>
         </div>
-
+        
         <div id="sports" class="content-section">
-            <h2>⚽ Sports Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://via.placeholder.com/300x200?text=Soccer+Game" alt="Soccer Game">
-                    <h3>Soccer Challenge</h3>
-                    <p>Test your soccer skills in this exciting sports game!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for 5000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://via.placeholder.com/300x200?text=Basketball+Game" alt="Basketball Game">
-                    <h3>Basketball Pro</h3>
-                    <p>Shoot hoops and score big in this basketball simulator!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for 5000 coins</button>
-                </div>
+            <h2><i class="fas fa-basketball-ball"></i> Sports Games</h2>
+            <div class="game-container" data-genre="sports">
+                <!-- Sports games will be added here dynamically -->
             </div>
         </div>
-
+        
         <div id="racing" class="content-section">
-            <h2>🏎️ Racing Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/br0sNM56/slrds.webp" alt="https://slowroads.io/">
-                    <h3>Slow roads</h3>
-                    <p>Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://slowroads.io/">🔒 Unlock for 6500 coins</button>
-                </div>                  <div class="game-card">
-                    <img src="https://i.postimg.cc/3xCcwfY7/crv.webp" alt="https://curvefever.pro/">
-                    <h3>Curve Fever</h3>
-                    <p>Fast-paced snake game where you trap rivals with your spinning trail. Last one standing wins!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="https://curvefever.pro/">🔒 Unlock for 4000 coins</button>
-                </div>  
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/52rh0QJf/stckcrrc.png" alt="https://b10b.com/stockcarhero/">
-                    <h3>Stock Car Hero</h3>
-                    <p>Race modified stock cars in intense oval track battles with realistic physics and upgrades!</p>
-                    <button class="game-button locked" data-price="6500" onclick="unlockGame(this)" data-link="https://b10b.com/stockcarhero/">🔒 Unlock for 6500 coins</button>
-                </div>
+            <h2><i class="fas fa-car"></i> Racing Games</h2>
+            <div class="game-container" data-genre="racing">
+                <!-- Racing games will be added here dynamically -->
             </div>
         </div>
-
+        
         <div id="classic" class="content-section">
-            <h2>🕹️ Classic Games</h2>
-            <div class="game-container">
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/QMxzFJRm/pcmngm.png" alt="Pac-Man">
-                    <h3>Pac-Man</h3>
-                    <p>Guide Pac-Man through the maze while avoiding ghosts!</p>
-                    <button class="game-button locked" data-price="4500" onclick="unlockGame(this)" data-link="https://www.google.com/logos/2010/pacman10-i.html">🔒 Unlock for 4500 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://i.postimg.cc/BbXs2Gkh/snkgm.png" alt="Snake Game">
-                    <h3>Snake Game</h3>
-                    <p>Classic snake game where you grow as long as possible!</p>
-                    <button class="game-button locked" data-price="5000" onclick="unlockGame(this)" data-link="https://playsnake.org/">🔒 Unlock for 5000 coins</button>
-                </div>
-                <div class="game-card">
-                    <img src="https://via.placeholder.com/300x200?text=Space+Invaders" alt="Space Invaders">
-                    <h3>Space Invaders</h3>
-                    <p>Defend Earth from alien invaders in this arcade classic!</p>
-                    <button class="game-button locked" data-price="4000" onclick="unlockGame(this)" data-link="#">🔒 Unlock for 4000 coins</button>
-                </div>
+            <h2><i class="fas fa-ghost"></i> Classic Games</h2>
+            <div class="game-container" data-genre="classic">
+                <!-- Classic games will be added here dynamically -->
             </div>
         </div>
     </div>
-    <footer style="text-align: center; padding: 5px; background: rgba(0, 0, 0, 0.8); color: white; position: fixed; bottom: 0; width: 100%;">
-        <p>&copy; 2025 Quantum Gaming. Unlock games by playing the Trading Game! </p>
-    </footer>
-   <script>
-    let chartInstance = null;
-    let totalBalance = 1000;
-    let unlockedGames = JSON.parse(localStorage.getItem("unlockedGames")) || {};
-
-    function startTrading() {
-        let multiplier = parseInt(document.getElementById("multiplier").value);
-        let stocks = parseInt(document.getElementById("stocks").value);
-
-        if (stocks < 1 || stocks > 1000) {
-            alert("Please enter a valid number of stocks (1-1000).");
-            return;
-        }
-        if (multiplier < 3 || multiplier > 20) {
-            alert("Please enter a valid turn to stop trade (3-20).");
-            return;
-        }
-
-        document.getElementById("loading").style.display = "block";
-        setTimeout(() => {
-            let number = Math.floor(Math.random() * 100) + 1;
-            let initialNumber = number;
-            let history = [{ name: "Start", value: number }];
-
-            for (let i = 0; i < multiplier; i++) {
-                if (number % 2 === 0) {
-                    number /= 2;
-                } else {
-                    number = number * 3 + 1;
-                }
-                history.push({ name: "Step " + (i + 1), value: number });
+    
+    <script>
+        // Global variables
+        let chartInstance = null;
+        let totalBalance = 1000;
+        let portfolio = [];
+        let unlockedGames = {};
+        let favoriteGames = [];
+        let currentTheme = 'light';
+        
+        // Game data
+        const games = [
+            {
+                name: "2048",
+                genre: "puzzle",
+                image: "https://i.postimg.cc/q7pM5SWL/2024-gm.png",
+                description: "A fun and addictive puzzle game where you combine tiles to reach the 2048 tile!",
+                price: 1500,
+                link: "https://play2048.co/"
+            },
+            {
+                name: "Slither.io",
+                genre: "action",
+                image: "https://i.postimg.cc/GppJ17yF/slithergm.png",
+                description: "Control a snake and grow as large as possible while avoiding other players!",
+                price: 2000,
+                link: "https://slither.io/"
+            },
+            {
+                name: "Agar.io",
+                genre: "action",
+                image: "https://i.postimg.cc/zvw0fLXK/agrgm.png",
+                description: "Grow your cell by eating smaller cells and avoid being eaten by larger ones!",
+                price: 2500,
+                link: "https://agar.io/"
+            },
+            {
+                name: "Deeeep.io",
+                genre: "survival",
+                image: "https://i.postimg.cc/FFdkQ16T/dp-io.webp",
+                description: "Dive into Deeeep.io—evolve as a sea creature, hunt, and survive in a deadly underwater battle royale!",
+                price: 7000,
+                link: "https://deeeep.io/"
+            },
+            {
+                name: "Krunker.io",
+                genre: "action",
+                image: "https://i.postimg.cc/xjFdssfr/krnkrgm.png",
+                description: "A fast-paced multiplayer first-person shooter game in your browser!",
+                price: 3000,
+                link: "https://krunker.io/"
+            },
+            {
+                name: "Minecraft Classic",
+                genre: "adventure",
+                image: "https://i.postimg.cc/dtF1CM3B/mncraft.png",
+                description: "Build and explore in this classic version of Minecraft directly in your browser!",
+                price: 3500,
+                link: "https://classic.minecraft.net/"
+            },
+            {
+                name: "Tanks.io",
+                genre: "action",
+                image: "https://i.postimg.cc/63VXzmcj/tnks-io.webp",
+                description: "Destroy enemy tanks, capture flags, or dominate in team battles!",
+                price: 8000,
+                link: "https://tankionline.com/play/"
+            },
+            {
+                name: "Starve.io",
+                genre: "survival",
+                image: "https://i.postimg.cc/6Qq0RbrP/strv-io.webp",
+                description: "A harsh survival game where you gather resources, craft tools, and fight to stay alive!",
+                price: 6500,
+                link: "https://starve.io/"
+            },
+            {
+                name: "Slow roads",
+                genre: "racing",
+                image: "https://i.postimg.cc/br0sNM56/slrds.webp",
+                description: "Slow Roads is a relaxing endless driving game with beautiful procedural landscapes and no pressure!",
+                price: 6500,
+                link: "https://slowroads.io/"
+            },
+            {
+                name: "Stock Car Hero",
+                genre: "racing",
+                image: "https://i.postimg.cc/52rh0QJf/stckcrrc.png",
+                description: "Race modified stock cars in intense oval track battles with realistic physics and upgrades!",
+                price: 6500,
+                link: "https://b10b.com/stockcarhero/"
+            },
+            {
+                name: "Brutal.io",
+                genre: "action",
+                image: "https://i.postimg.cc/RV1dJwBt/brtl-io.webp",
+                description: "A savage survival game where you devour meat, crush rivals, and dominate the arena!",
+                price: 6000,
+                link: "https://brutal.io/#google_vignette"
+            },
+            {
+                name: "Taming.io",
+                genre: "survival",
+                image: "https://i.postimg.cc/MGWryyCY/tmg-io.webp",
+                description: "Taming.io is a multiplayer survival game where players tame pets, gather resources, and battle others!",
+                price: 5000,
+                link: "https://taming.io/"
+            },
+            {
+                name: "Kour.io",
+                genre: "action",
+                image: "https://i.postimg.cc/1t8YHkK5/krgm.webp",
+                description: "A fast-paced multiplayer FPS with smooth controls, epic gunfights, and nonstop action!",
+                price: 6000,
+                link: "https://kour.io/"
+            },
+            {
+                name: "Tetris",
+                genre: "puzzle",
+                image: "https://i.postimg.cc/Y9Fwbxb7/ttrsgm.png",
+                description: "The classic block-stacking game that challenges your speed and strategy!",
+                price: 4000,
+                link: "https://tetris.com/play-tetris"
+            },
+            {
+                name: "Evowars.io",
+                genre: "action",
+                image: "https://i.postimg.cc/BZzwGHLJ/evowrs.webp",
+                description: "Grow by defeating smaller players, evolve, and dominate in this fast-paced multiplayer game!",
+                price: 4500,
+                link: "https://evowars.io/"
+            },
+            {
+                name: "Pac-Man",
+                genre: "classic",
+                image: "https://i.postimg.cc/QMxzFJRm/pcmngm.png",
+                description: "Guide Pac-Man through the maze while avoiding ghosts in this iconic game!",
+                price: 4500,
+                link: "https://www.google.com/logos/2010/pacman10-i.html"
+            },
+            {
+                name: "Shell Shockers",
+                genre: "action",
+                image: "https://i.postimg.cc/HW6SxYW4/shlsckrs.webp",
+                description: "A chaotic FPS where you play as an egg, shooting opponents to crack them!",
+                price: 4500,
+                link: "https://shellshock.io/"
+            },
+            {
+                name: "Snake Game",
+                genre: "classic",
+                image: "https://i.postimg.cc/BbXs2Gkh/snkgm.png",
+                description: "Control the snake, eat food, and grow as long as possible without crashing!",
+                price: 5000,
+                link: "https://playsnake.org/"
+            },
+            {
+                name: "Chess",
+                genre: "strategy",
+                image: "https://i.postimg.cc/255NvDPP/chss.png",
+                description: "Challenge your mind with the classic game of strategy and tactics!",
+                price: 5500,
+                link: "https://www.chess.com/play/computer"
+            },
+            {
+                name: "Diep.io",
+                genre: "strategy",
+                image: "https://i.postimg.cc/7YrWbfyY/diep-gm.webp",
+                description: "Multiplayer tank battle in a 2D arena. Earn XP, upgrade stats, evolve classes, compete globally!",
+                price: 5500,
+                link: "https://diep.io"
+            },
+            {
+                name: "Sudoku",
+                genre: "puzzle",
+                image: "https://i.postimg.cc/MHd52CG8/sdkgm.png",
+                description: "Solve the puzzle by filling the grid with numbers from 1 to 9!",
+                price: 6000,
+                link: "https://sudoku.com/"
+            },
+            {
+                name: "Gats.io",
+                genre: "action",
+                image: "https://i.postimg.cc/Jhc21jdP/gts.webp",
+                description: "A fast-paced pixel shooter with tactical gameplay, team battles, and customizable weapons!",
+                price: 6000,
+                link: "https://gats.io/"
+            },
+            {
+                name: "Curve Fever",
+                genre: "racing",
+                image: "https://i.postimg.cc/3xCcwfY7/crv.webp",
+                description: "Fast-paced snake game where you trap rivals with your spinning trail. Last one standing wins!",
+                price: 4000,
+                link: "https://curvefever.pro/"
             }
-
-            let profitLoss = (number - initialNumber) * stocks;
-            totalBalance += profitLoss;
-            localStorage.setItem("totalBalance", totalBalance.toString());
-
-            // Update both balance displays
-            document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
-            document.getElementById("globalBalance").innerText = totalBalance.toFixed(2);
+        ];
+        
+        // Market news data
+        const marketNews = [
+            {
+                title: "Tech Stocks Rally After Positive Earnings Reports",
+                content: "Major tech companies reported better-than-expected earnings, leading to a surge in stock prices across the sector.",
+                impact: "positive",
+                affected: ["amazon", "apple", "google", "microsoft", "meta", "nvidia"]
+            },
+            {
+                title: "New Regulations Proposed for Social Media Companies",
+                content: "Government announces new regulations that could impact social media platforms' revenue models.",
+                impact: "negative",
+                affected: ["meta", "google"]
+            },
+            {
+                title: "Electric Vehicle Demand Surges",
+                content: "Increased consumer interest in electric vehicles is driving up stock prices for EV manufacturers.",
+                impact: "positive",
+                affected: ["tesla"]
+            },
+            {
+                title: "Semiconductor Shortage Continues",
+                content: "Ongoing global semiconductor shortage is affecting production across multiple industries.",
+                impact: "negative",
+                affected: ["intel", "amd", "nvidia"]
+            },
+            {
+                title: "Streaming Wars Heat Up",
+                content: "New entrants in the streaming market are putting pressure on established players.",
+                impact: "negative",
+                affected: ["netflix"]
+            },
+            {
+                title: "Cloud Computing Growth Exceeds Expectations",
+                content: "Enterprise adoption of cloud services is growing faster than analysts predicted.",
+                impact: "positive",
+                affected: ["amazon", "microsoft", "google"]
+            }
+        ];
+        
+        // Initialize the application
+        function init() {
+            loadData();
+            renderGames();
+            renderMarketNews();
+            updateBalanceDisplay();
+            setupEventListeners();
+            showSection('home');
+        }
+        
+        // Load saved data from localStorage
+        function loadData() {
+            // Load balance
+            const savedBalance = localStorage.getItem("totalBalance");
+            if (savedBalance) {
+                totalBalance = parseFloat(savedBalance);
+            }
             
-            document.getElementById("initialNumber").innerText = initialNumber;
-            document.getElementById("finalNumber").innerText = number;
-            document.getElementById("profitLoss").innerText = profitLoss > 0 ? `+${profitLoss}` : profitLoss;
-            document.getElementById("profitLoss").style.color = profitLoss > 0 ? "#21bf73" : "#ff4500";
-
+            // Load portfolio
+            const savedPortfolio = localStorage.getItem("portfolio");
+            if (savedPortfolio) {
+                portfolio = JSON.parse(savedPortfolio);
+            }
+            
+            // Load unlocked games
+            const savedUnlockedGames = localStorage.getItem("unlockedGames");
+            if (savedUnlockedGames) {
+                unlockedGames = JSON.parse(savedUnlockedGames);
+            }
+            
+            // Load favorites
+            const savedFavorites = localStorage.getItem("favoriteGames");
+            if (savedFavorites) {
+                favoriteGames = JSON.parse(savedFavorites);
+            }
+            
+            // Load theme preference
+            const savedTheme = localStorage.getItem("themePreference");
+            if (savedTheme) {
+                currentTheme = savedTheme;
+                setTheme(savedTheme);
+            }
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem("totalBalance", totalBalance.toString());
+            localStorage.setItem("portfolio", JSON.stringify(portfolio));
+            localStorage.setItem("unlockedGames", JSON.stringify(unlockedGames));
+            localStorage.setItem("favoriteGames", JSON.stringify(favoriteGames));
+            localStorage.setItem("themePreference", currentTheme);
+        }
+        
+        // Set theme (light/dark)
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.body.setAttribute("data-theme", theme);
+            
+            // Update theme toggle icon
+            const themeToggle = document.getElementById("themeToggle");
+            if (theme === "dark") {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            saveData();
+        }
+        
+        // Toggle between light and dark theme
+        function toggleTheme() {
+            if (currentTheme === "light") {
+                setTheme("dark");
+            } else {
+                setTheme("light");
+            }
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Theme toggle
+            document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+        }
+        
+        // Show a specific section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll(".content-section").forEach(section => {
+                section.classList.remove("active");
+            });
+            
+            // Deactivate all sidebar buttons
+            document.querySelectorAll(".sidebar button").forEach(button => {
+                button.classList.remove("active");
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.add("active");
+            
+            // Activate the corresponding sidebar button
+            const activeButton = document.querySelector(.sidebar button[onclick="showSection('${sectionId}')"]);
+            if (activeButton) {
+                activeButton.classList.add("active");
+            }
+            
+            // Special handling for certain sections
+            if (sectionId === "gaming") {
+                renderGames();
+            } else if (sectionId === "trading") {
+                renderPortfolio();
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Show a specific trading tab
+        function showTradingTab(tabId) {
+            // Deactivate all tabs
+            document.querySelectorAll(".trading-tab").forEach(tab => {
+                tab.classList.remove("active");
+            });
+            
+            // Hide all tab contents
+            document.querySelectorAll(".trading-tab-content").forEach(content => {
+                content.classList.remove("active");
+            });
+            
+            // Activate the selected tab
+            const activeTab = document.querySelector(.trading-tab[onclick="showTradingTab('${tabId}')"]);
+            if (activeTab) {
+                activeTab.classList.add("active");
+            }
+            
+            // Show the corresponding content
+            document.getElementById(${tabId}-tab).classList.add("active");
+        }
+        
+        // Execute a trade
+        function executeTrade() {
+            const company = document.getElementById("company").value;
+            const tradeType = document.getElementById("tradeType").value;
+            const shares = parseInt(document.getElementById("stocks").value);
+            const duration = parseInt(document.getElementById("duration").value);
+            
+            if (shares < 1 || shares > 1000) {
+                alert("Please enter a valid number of shares (1-1000).");
+                return;
+            }
+            
+            if (duration < 1 || duration > 30) {
+                alert("Please enter a valid duration (1-30 days).");
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById("loading").style.display = "block";
+            
+            // Simulate market delay
+            setTimeout(() => {
+                // Generate random price movement with some news influence
+                let basePrice = Math.random() * 100 + 50;
+                let finalPrice = basePrice;
+                let priceHistory = [basePrice];
+                let newsImpact = 0;
+                
+                // Check for relevant news
+                const relevantNews = marketNews.filter(news => 
+                    news.affected.includes(company)
+                );
+                
+                if (relevantNews.length > 0) {
+                    const randomNews = relevantNews[Math.floor(Math.random() * relevantNews.length)];
+                    newsImpact = randomNews.impact === "positive" ? 
+                        Math.random() * 0.2 : // 0-20% positive impact
+                        -Math.random() * 0.15; // 0-15% negative impact
+                        
+                    // Add news to feed
+                    addNewsToFeed({
+                        title: ${company.toUpperCase()} Affected: ${randomNews.title},
+                        content: randomNews.content,
+                        impact: randomNews.impact
+                    });
+                }
+                
+                // Simulate price movement over time
+                for (let i = 0; i < duration; i++) {
+                    // Random daily movement (-5% to +5%) plus any news impact
+                    const dailyChange = (Math.random() * 0.1 - 0.05) + (newsImpact / duration);
+                    finalPrice = finalPrice * (1 + dailyChange);
+                    priceHistory.push(finalPrice);
+                }
+                
+                // Calculate results
+                const investment = basePrice * shares;
+                const finalValue = finalPrice * shares;
+                const profitLoss = finalValue - investment;
+                
+                // Update balance
+                totalBalance += profitLoss;
+                
+                // Add to portfolio if buying
+                if (tradeType === "buy") {
+                    portfolio.push({
+                        company,
+                        shares,
+                        buyPrice: basePrice,
+                        currentPrice: finalPrice,
+                        buyDate: new Date().toLocaleDateString()
+                    });
+                }
+                
+                // Update UI
+                document.getElementById("currentPrice").textContent = basePrice.toFixed(2);
+                document.getElementById("resultShares").textContent = shares;
+                document.getElementById("investmentAmount").textContent = investment.toFixed(2);
+                document.getElementById("finalValue").textContent = finalValue.toFixed(2);
+                
+                const profitLossElement = document.getElementById("profitLoss");
+                profitLossElement.textContent = profitLoss >= 0 ? 
+                    +${profitLoss.toFixed(2)} : 
+                    profitLoss.toFixed(2);
+                profitLossElement.style.color = profitLoss >= 0 ? "var(--success)" : "var(--danger)";
+                
+                // Update chart
+                updateChart(priceHistory, company);
+                
+                // Update balance display
+                updateBalanceDisplay();
+                
+                // Save data
+                saveData();
+                
+                // Hide loading
+                document.getElementById("loading").style.display = "none";
+                
+                // Show confetti if profit
+                if (profitLoss > 0) {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            }, 1000);
+        }
+        
+        // Update the chart with price data
+        function updateChart(prices, company) {
+            const ctx = document.getElementById("chart").getContext("2d");
+            
+            // Destroy previous chart instance if exists
             if (chartInstance) {
                 chartInstance.destroy();
             }
-            let ctx = document.getElementById("chart").getContext("2d");
+            
+            // Create labels for each day
+            const labels = prices.map((_, i) => i === 0 ? "Day 0 (Buy)" : Day ${i});
+            
             chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: history.map(h => h.name),
+                    labels: labels,
                     datasets: [{
-                        label: "Stock Value",
-                        data: history.map(h => h.value),
-                        borderColor: "#21bf73",
+                        label: ${company.toUpperCase()} Stock Price,
+                        data: prices,
+                        borderColor: "var(--primary)",
                         borderWidth: 2,
-                        backgroundColor: "rgba(33, 191, 115, 0.2)",
-                        pointBackgroundColor: "#21bf73",
-                        tension: 0.4
+                        backgroundColor: "rgba(106, 17, 203, 0.1)",
+                        pointBackgroundColor: "var(--primary)",
+                        tension: 0.4,
+                        fill: true
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: "var(--text-light)"
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
                     scales: {
+                        x: {
+                            grid: {
+                                color: "rgba(255, 255, 255, 0.1)"
+                            },
+                            ticks: {
+                                color: "var(--text-light)"
+                            }
+                        },
                         y: {
-                            beginAtZero: false
+                            grid: {
+                                color: "rgba(255, 255, 255, 0.1)"
+                            },
+                            ticks: {
+                                color: "var(--text-light)",
+                                callback: function(value) {
+                                    return '$' + value.toFixed(2);
+                                }
+                            }
                         }
                     }
                 }
             });
-
-            if (profitLoss > 0) {
+        }
+        
+        // Render the portfolio
+        function renderPortfolio() {
+            const portfolioGrid = document.getElementById("portfolioGrid");
+            portfolioGrid.innerHTML = "";
+            
+            if (portfolio.length === 0) {
+                portfolioGrid.innerHTML = "<p>Your portfolio is empty. Start trading to add investments!</p>";
+                return;
+            }
+            
+            portfolio.forEach((item, index) => {
+                const currentValue = item.shares * item.currentPrice;
+                const investment = item.shares * item.buyPrice;
+                const profitLoss = currentValue - investment;
+                const profitLossPercent = (profitLoss / investment) * 100;
+                
+                const portfolioItem = document.createElement("div");
+                portfolioItem.className = "portfolio-item";
+                portfolioItem.innerHTML = `
+                    <h4>${item.company.toUpperCase()}</h4>
+                    <p>Shares: ${item.shares}</p>
+                    <p>Buy Price: $${item.buyPrice.toFixed(2)}</p>
+                    <p>Current: $${item.currentPrice.toFixed(2)}</p>
+                    <p>Value: $${currentValue.toFixed(2)}</p>
+                    <p style="color: ${profitLoss >= 0 ? 'var(--success)' : 'var(--danger)'}">
+                        ${profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)
+                    </p>
+                    <button class="game-button" onclick="sellInvestment(${index})">Sell</button>
+                `;
+                
+                portfolioGrid.appendChild(portfolioItem);
+            });
+        }
+        
+        // Sell an investment
+        function sellInvestment(index) {
+            const investment = portfolio[index];
+            const currentValue = investment.shares * investment.currentPrice;
+            
+            totalBalance += currentValue;
+            portfolio.splice(index, 1);
+            
+            // Update UI and save
+            updateBalanceDisplay();
+            renderPortfolio();
+            saveData();
+            
+            // Show confirmation
+            alert(Successfully sold ${investment.shares} shares of ${investment.company.toUpperCase()} for $${currentValue.toFixed(2)}!);
+        }
+        
+        // Render market news
+        function renderMarketNews() {
+            const newsFeed = document.getElementById("newsFeed");
+            newsFeed.innerHTML = "";
+            
+            // Display last 5 news items
+            const recentNews = [...marketNews].reverse().slice(0, 5);
+            
+            recentNews.forEach(news => {
+                addNewsToFeed(news);
+            });
+        }
+        
+        // Add a news item to the feed
+        function addNewsToFeed(news) {
+            const newsFeed = document.getElementById("newsFeed");
+            const newsItem = document.createElement("div");
+            newsItem.className = news-item ${news.impact};
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            
+            newsItem.innerHTML = `
+                <h4>${news.title}</h4>
+                <p>${news.content}</p>
+                <div class="news-time">${timeString}</div>
+            `;
+            
+            // Add to top of feed
+            if (newsFeed.firstChild) {
+                newsFeed.insertBefore(newsItem, newsFeed.firstChild);
+            } else {
+                newsFeed.appendChild(newsItem);
+            }
+        }
+        
+        // Render all games
+        function renderGames() {
+            // Clear existing games
+            document.querySelectorAll(".game-container").forEach(container => {
+                container.innerHTML = "";
+            });
+            
+            // Sort games by name
+            const sortedGames = [...games].sort((a, b) => a.name.localeCompare(b.name));
+            
+            // Render each game
+            sortedGames.forEach(game => {
+                renderGameCard(game);
+            });
+        }
+        
+        // Render a game card
+        function renderGameCard(game) {
+            // Create the game card element
+            const gameCard = document.createElement("div");
+            gameCard.className = "game-card";
+            
+            // Check if game is unlocked
+            const isUnlocked = unlockedGames[game.name]?.unlocked || false;
+            const isFavorite = favoriteGames.includes(game.name);
+            
+            // Set up the card content
+            gameCard.innerHTML = `
+                <img src="${game.image}" alt="${game.name}">
+                <div class="game-card-content">
+                    <h3>${game.name}</h3>
+                    <p>${game.description}</p>
+                    <div class="game-card-actions">
+                        ${isUnlocked ? 
+                            `<button class="game-button" onclick="playGame('${game.name}')">
+                                <i class="fas fa-play"></i> Play Now
+                            </button>` : 
+                            `<button class="game-button locked" onclick="unlockGame('${game.name}', ${game.price})">
+                                <i class="fas fa-lock"></i> Unlock for ${game.price} coins
+                            </button>`
+                        }
+                        <button class="favorite-btn ${isFavorite ? 'favorited' : ''}" 
+                                onclick="toggleFavorite('${game.name}')">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add to all relevant containers
+            document.querySelector(".game-container").appendChild(gameCard.cloneNode(true));
+            
+            // Add to genre-specific containers if different from main genre
+            if (game.genre) {
+                const genreContainer = document.querySelector(.game-container[data-genre="${game.genre}"]);
+                if (genreContainer) {
+                    genreContainer.appendChild(gameCard.cloneNode(true));
+                }
+            }
+        }
+        
+        // Unlock a game
+        function unlockGame(gameName, price) {
+            if (totalBalance >= price) {
+                totalBalance -= price;
+                unlockedGames[gameName] = {
+                    unlocked: true,
+                    link: games.find(g => g.name === gameName)?.link || "#"
+                };
+                
+                // Update UI and save
+                updateBalanceDisplay();
+                renderGames();
+                saveData();
+                
+                // Show success message
+                alert("${gameName}" has been unlocked! You can now play it anytime.);
+                
+                // Show confetti
                 confetti({
                     particleCount: 100,
                     spread: 70,
                     origin: { y: 0.6 }
                 });
-            }
-
-            document.getElementById("loading").style.display = "none";
-        }, 1000);
-    }
-
-    function unlockGame(button) {
-        const price = parseInt(button.getAttribute("data-price"));
-        const link = button.getAttribute("data-link");
-        const gameName = button.parentElement.querySelector("h3").textContent.trim();
-        
-        if (totalBalance >= price) {
-            totalBalance -= price;
-            localStorage.setItem("totalBalance", totalBalance.toString());
-            
-            // Update both balance displays
-            document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
-            document.getElementById("globalBalance").innerText = totalBalance.toFixed(2);
-            
-            // Store both unlocked status and link
-            unlockedGames[gameName] = {
-                unlocked: true,
-                link: link
-            };
-            localStorage.setItem("unlockedGames", JSON.stringify(unlockedGames));
-            
-            // Update all instances of this game across all sections
-            updateAllGameButtons(gameName, link);
-            
-            alert("Game unlocked successfully!");
-        } else {
-            alert("Play the trading game to earn more coins!");
-        }
-    }
-
-    function updateAllGameButtons(gameName, link) {
-        // Find all buttons for this game across all sections
-        const allGameCards = document.querySelectorAll(".game-card");
-        
-        allGameCards.forEach(card => {
-            if (card.querySelector("h3").textContent.trim() === gameName) {
-                const button = card.querySelector(".game-button");
-                button.classList.remove("locked");
-                button.innerHTML = "▶️ Play Now";
-                button.onclick = function() {
-                    // Use the link from the button's data attribute or from the stored data
-                    const gameLink = this.getAttribute("data-link") || link;
-                    if (gameLink) {
-                        window.open(gameLink, "_blank");
-                    }
-                };
-            }
-        });
-    }
-
-    // On page load, restore unlocked games and balance
-    window.onload = function() {
-        const savedBalance = localStorage.getItem("totalBalance");
-        if (savedBalance) {
-            totalBalance = parseFloat(savedBalance);
-            // Update both balance displays
-            document.getElementById("totalBalance").innerText = totalBalance.toFixed(2);
-            document.getElementById("globalBalance").innerText = totalBalance.toFixed(2);
-        }
-        
-        // Restore unlocked game states with their links
-        for (const [gameName, gameData] of Object.entries(unlockedGames)) {
-            if (gameData.unlocked) {
-                updateAllGameButtons(gameName, gameData.link);
-            }
-        }
-        
-        // Initialize all game buttons with their proper click handlers
-        document.querySelectorAll(".game-button").forEach(button => {
-            const gameName = button.parentElement.querySelector("h3").textContent.trim();
-            if (unlockedGames[gameName]?.unlocked) {
-                button.classList.remove("locked");
-                button.innerHTML = "▶️ Play Now";
-                button.onclick = function() {
-                    const link = unlockedGames[gameName].link || button.getAttribute("data-link");
-                    if (link) {
-                        window.open(link, "_blank");
-                    }
-                };
             } else {
-                button.onclick = function() {
-                    unlockGame(this);
-                };
+                alert(You need ${price - totalBalance} more coins to unlock this game. Keep trading!);
             }
-        });
-    };
-
-    function showSection(sectionId) {
-        document.querySelectorAll(".content-section").forEach(section => {
-            section.classList.remove("active");
-        });
-        document.getElementById(sectionId).classList.add("active");
-    }
-</script>
+        }
+        
+        // Play a game
+        function playGame(gameName) {
+            const game = games.find(g => g.name === gameName);
+            if (game && unlockedGames[gameName]?.unlocked) {
+                window.open(game.link, "_blank");
+            }
+        }
+        
+        // Toggle game as favorite
+        function toggleFavorite(gameName) {
+            const index = favoriteGames.indexOf(gameName);
+            if (index === -1) {
+                favoriteGames.push(gameName);
+            } else {
+                favoriteGames.splice(index, 1);
+            }
+            
+            // Update UI and save
+            renderGames();
+            saveData();
+        }
+        
+        // Update balance display
+        function updateBalanceDisplay() {
+            document.getElementById("totalBalance").textContent = totalBalance.toFixed(2);
+            document.getElementById("globalBalance").textContent = totalBalance.toFixed(2);
+        }
+        
+        // Initialize the app when the page loads
+        window.onload = init;
+    </script>
 </body>
-</html>
+</html
