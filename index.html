@@ -793,12 +793,12 @@
                         </select>
                     </div>
                     
-              <div class="input-group" style="display: none;">
-    <select id="tradeType">
-        <option value="buy" selected>Buy</option>
-        <option value="sell">Sell</option>
-    </select>
-</div>
+                    <div class="input-group" style="display: none;">
+                        <select id="tradeType">
+                            <option value="buy" selected>Buy</option>
+                            <option value="sell">Sell</option>
+                        </select>
+                    </div>
                     
                     <div class="input-group">
                         <label for="stocks">Number of Shares (1-1000):</label>
@@ -1360,6 +1360,8 @@
                         currentPrice: finalPrice,
                         buyDate: new Date().toLocaleDateString()
                     });
+                    // Update portfolio display
+                    renderPortfolio();
                 }
                 
                 // Update UI
@@ -1394,6 +1396,11 @@
                         origin: { y: 0.6 }
                     });
                 }
+                
+                // Scroll to portfolio section to show the new trade
+                setTimeout(() => {
+                    scrollToTradingSection('portfolio-section');
+                }, 100);
             }, 1000);
         }
         
@@ -1475,21 +1482,21 @@
             }
             
             portfolio.forEach((item, index) => {
-    const currentValue = item.shares * item.currentPrice;
-    const totalBuyPrice = item.shares * item.buyPrice;
-    const profitLoss = currentValue - totalBuyPrice;
-    const profitLossPercent = (profitLoss / totalBuyPrice) * 100;
-    
-    const portfolioItem = document.createElement("div");
-    portfolioItem.className = "portfolio-item";
-    portfolioItem.innerHTML = `
-        <h4>${item.company.toUpperCase()}</h4>
-        <p>Shares: ${item.shares}</p>
-        <p>Buy Price: $${totalBuyPrice.toFixed(2)}</p>
-        <p>Selling Price: $${currentValue.toFixed(2)}</p>
-        <p style="color: ${profitLoss >= 0 ? 'var(--success)' : 'var(--danger)'}">
-            ${profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)
-                    
+                const currentValue = item.shares * item.currentPrice;
+                const totalBuyPrice = item.shares * item.buyPrice;
+                const profitLoss = currentValue - totalBuyPrice;
+                const profitLossPercent = (profitLoss / totalBuyPrice) * 100;
+                
+                const portfolioItem = document.createElement("div");
+                portfolioItem.className = "portfolio-item";
+                portfolioItem.innerHTML = `
+                    <h4>${item.company.toUpperCase()}</h4>
+                    <p>Shares: ${item.shares}</p>
+                    <p>Buy Price: $${totalBuyPrice.toFixed(2)}</p>
+                    <p>Selling Price: $${currentValue.toFixed(2)}</p>
+                    <p style="color: ${profitLoss >= 0 ? 'var(--success)' : 'var(--danger)'}">
+                        ${profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)
+                   
                 `;
                 
                 portfolioGrid.appendChild(portfolioItem);
