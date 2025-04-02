@@ -256,6 +256,13 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 8px;
+            z-index: 10;
+            backdrop-filter: blur(5px);
         }
         
         .trading-tab {
@@ -272,6 +279,21 @@
         
         .trading-tab:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Trading Sections */
+        .trading-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .trading-section h3 {
+            margin-top: 0;
+            color: var(--accent);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
         }
         
         /* Game Cards */
@@ -742,14 +764,15 @@
             <h2><i class="fas fa-chart-line"></i> Trading Simulation</h2>
             
             <div class="trading-tabs">
-                <div class="trading-tab active" onclick="showTradingTab('trade')">Trade</div>
-                <div class="trading-tab" onclick="showTradingTab('portfolio')">Portfolio</div>
-                <div class="trading-tab" onclick="showTradingTab('news')">Market News</div>
+                <div class="trading-tab active" onclick="scrollToTradingSection('trade-section')">Trade</div>
+                <div class="trading-tab" onclick="scrollToTradingSection('portfolio-section')">Portfolio</div>
+                <div class="trading-tab" onclick="scrollToTradingSection('news-section')">Market News</div>
             </div>
             
             <div class="trading-container">
-                <!-- Trade Tab -->
-                <div id="trade-tab" class="trading-tab-content active">
+                <!-- Trade Section -->
+                <div id="trade-section" class="trading-section">
+                    <h3>Trade Stocks</h3>
                     <div class="balance-box">
                         <h3>Total Balance: <span id="totalBalance">1000</span> Coins</h3>
                     </div>
@@ -809,16 +832,16 @@
                     <canvas id="chart"></canvas>
                 </div>
                 
-                <!-- Portfolio Tab -->
-                <div id="portfolio-tab" class="trading-tab-content">
+                <!-- Portfolio Section -->
+                <div id="portfolio-section" class="trading-section">
                     <h3>Your Investment Portfolio</h3>
                     <div class="portfolio-grid" id="portfolioGrid">
                         <!-- Portfolio items will be added here dynamically -->
                     </div>
                 </div>
                 
-                <!-- News Tab -->
-                <div id="news-tab" class="trading-tab-content">
+                <!-- News Section -->
+                <div id="news-section" class="trading-section">
                     <h3>Market News</h3>
                     <div id="newsFeed">
                         <!-- News items will be added here dynamically -->
@@ -1246,26 +1269,24 @@
             window.scrollTo(0, 0);
         }
         
-        // Show a specific trading tab
-        function showTradingTab(tabId) {
+        // Scroll to a specific trading section
+        function scrollToTradingSection(sectionId) {
             // Deactivate all tabs
             document.querySelectorAll(".trading-tab").forEach(tab => {
                 tab.classList.remove("active");
             });
             
-            // Hide all tab contents
-            document.querySelectorAll(".trading-tab-content").forEach(content => {
-                content.classList.remove("active");
-            });
-            
             // Activate the selected tab
-            const activeTab = document.querySelector(`.trading-tab[onclick="showTradingTab('${tabId}')"]`);
+            const activeTab = document.querySelector(`.trading-tab[onclick="scrollToTradingSection('${sectionId}')"]`);
             if (activeTab) {
                 activeTab.classList.add("active");
             }
             
-            // Show the corresponding content
-            document.getElementById(`${tabId}-tab`).classList.add("active");
+            // Scroll to the section
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
         }
         
         // Execute a trade
@@ -1455,23 +1476,21 @@
             }
             
             portfolio.forEach((item, index) => {
-                const currentValue = item.shares * item.currentPrice;
-                const investment = item.shares * item.buyPrice;
-                const profitLoss = currentValue - investment;
-                const profitLossPercent = (profitLoss / investment) * 100;
-                
-                const portfolioItem = document.createElement("div");
-                portfolioItem.className = "portfolio-item";
-                portfolioItem.innerHTML = `
-                    <h4>${item.company.toUpperCase()}</h4>
-                    <p>Shares: ${item.shares}</p>
-                    <p>Buy Price: $${item.buyPrice.toFixed(2)}</p>
-                    <p>Current: $${item.currentPrice.toFixed(2)}</p>
-                    <p>Value: $${currentValue.toFixed(2)}</p>
-                    <p style="color: ${profitLoss >= 0 ? 'var(--success)' : 'var(--danger)'}">
-                        ${profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)
-                    </p>
-                    <button class="game-button" onclick="sellInvestment(${index})">Sell</button>
+    const currentValue = item.shares * item.currentPrice;
+    const totalBuyPrice = item.shares * item.buyPrice;
+    const profitLoss = currentValue - totalBuyPrice;
+    const profitLossPercent = (profitLoss / totalBuyPrice) * 100;
+    
+    const portfolioItem = document.createElement("div");
+    portfolioItem.className = "portfolio-item";
+    portfolioItem.innerHTML = `
+        <h4>${item.company.toUpperCase()}</h4>
+        <p>Shares: ${item.shares}</p>
+        <p>Buy Price: $${totalBuyPrice.toFixed(2)}</p>
+        <p>Selling Price: $${currentValue.toFixed(2)}</p>
+        <p style="color: ${profitLoss >= 0 ? 'var(--success)' : 'var(--danger)'}">
+            ${profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(2)} (${profitLossPercent.toFixed(2)}%)
+                    
                 `;
                 
                 portfolioGrid.appendChild(portfolioItem);
